@@ -14,28 +14,28 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.aetheriot.workers.dev"),
-  title: "AetherIoT — Edge, cloud, and contracts",
+  title: "AetherIoT — The AI-native runtime for physical spaces",
   description:
-    "The open-source IoT platform for reliable edge operation, governed cloud coordination, and portable public contracts.",
+    "The open-source runtime foundation for agents to turn human intent into governed, verifiable physical behavior.",
   openGraph: {
-    title: "AetherIoT — Edge, cloud, and contracts",
+    title: "AetherIoT — The AI-native runtime for physical spaces",
     description:
-      "One platform for AetherEdge, AetherCloud, and AetherContracts.",
+      "Describe the outcome. Let agents generate governed behavior that the edge can execute without the model.",
     type: "website",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "AetherIoT — Edge, cloud, and contracts.",
+        alt: "AetherIoT — The AI-native runtime for physical spaces.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AetherIoT — Edge, cloud, and contracts",
+    title: "AetherIoT — The AI-native runtime for physical spaces",
     description:
-      "One platform for AetherEdge, AetherCloud, and AetherContracts.",
+      "Describe the outcome. Verify the change. Execute it at the edge.",
     images: ["/og.png"],
   },
 };

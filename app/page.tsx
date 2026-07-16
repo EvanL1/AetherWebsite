@@ -1,54 +1,59 @@
 const edgeUrl = "https://github.com/EvanL1/AetherEdge";
 const docsUrl = "https://docs.aetheriot.workers.dev/";
-const quickstartUrl =
-  "https://docs.aetheriot.workers.dev/aetheredge/";
+const aiNativeUrl =
+  "https://docs.aetheriot.workers.dev/overview/ai-native-platform/";
 const cloudUrl = "https://github.com/EvanL1/AetherCloud";
 const contractsUrl = "https://github.com/EvanL1/AetherContracts";
 const emsUrl = "https://github.com/EvanL1/AetherEMS";
 
 const capabilities = [
   {
-    index: "01",
-    title: "Keep the edge in control",
-    body: "Acquisition, deterministic rules, alarms, history, and safety keep running locally—even when the cloud or an AI client disappears.",
+    index: "01 · DIRECTION",
+    title: "Start with human intent",
+    body: "The product direction replaces configuration screens with conversation: describe the outcome, constraints, and duration instead of programming devices by hand.",
   },
   {
-    index: "02",
-    title: "Give AI a governed boundary",
-    body: "Agents, CLIs, and applications use the same typed command and query layer. Device control stays deny-by-default, confirmed, and audited.",
+    index: "02 · FOUNDATION",
+    title: "Compile intent into governed change",
+    body: "Typed capabilities, revisions, permissions, confirmation, and audit turn model output into inspectable artifacts—not direct device calls.",
   },
   {
-    index: "03",
-    title: "Connect cloud without surrendering authority",
-    body: "Use broker-neutral CloudLink foundations and public contracts while the edge remains authoritative for live state and physical execution.",
+    index: "03 · AVAILABLE",
+    title: "Execute without the model",
+    body: "AetherEdge runs commissioned acquisition, rules, alarms, history, and safety locally, even when the agent, cloud, or internet disappears.",
   },
 ] as const;
 
 const layers = [
   {
-    eyebrow: "OPEN-SOURCE EDGE",
+    eyebrow: "DETERMINISTIC EDGE",
     title: "AetherEdge",
-    copy: "A Linux edge kernel, six-service runtime, and Rust SDK for reliable field applications.",
+    copy: "The Linux runtime that owns live state and executes commissioned behavior without placing an LLM in the real-time loop.",
     href: edgeUrl,
     cta: "Explore the edge runtime",
   },
   {
-    eyebrow: "MULTI-CLOUD CONTROL",
+    eyebrow: "AGENT AND CONTROL PLANE",
     title: "AetherCloud",
-    copy: "An evolving cloud-side fusion and control plane that preserves provider-native capabilities.",
+    copy: "The evolving home for agent context, desired state, governed jobs, integrations, and provider-native cloud coordination.",
     href: cloudUrl,
     cta: "See the cloud foundation",
   },
   {
-    eyebrow: "PUBLIC INTEROPERABILITY",
+    eyebrow: "TYPED INTEROPERABILITY",
     title: "AetherContracts",
-    copy: "Language-neutral schemas, fixtures, profiles, and executable contract evidence.",
+    copy: "The language-neutral source of truth that keeps capabilities and messages type-safe, versioned, portable, and testable.",
     href: contractsUrl,
     cta: "Inspect the contracts",
   },
 ] as const;
 
 const documentation = [
+  {
+    title: "AI-native platform",
+    copy: "See how conversation becomes a governed plan and deterministic edge behavior.",
+    href: aiNativeUrl,
+  },
   {
     title: "Overview",
     copy: "Product boundaries, authority, deployments, and user journeys.",
@@ -123,34 +128,36 @@ export default function Home() {
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-copy">
           <p className="eyebrow">
-            <span className="status-dot" /> OPEN SOURCE · BETA
+            <span className="status-dot" /> OPEN SOURCE · AI-NATIVE · BETA
           </p>
           <h1>
             <span className="hero-line hero-line-solid">
-              The cloud can wait.
+              Describe the outcome.
             </span>
             <span className="hero-line hero-line-outline">
-              The edge cannot.
+              Agents build behavior.
             </span>
           </h1>
           <p className="hero-lede">
-            AetherIoT is the open-source IoT platform for reliable edge
-            operation, governed cloud coordination, and portable public
-            contracts—with or without cloud and AI.
+            AetherIoT is the open-source, AI-native runtime foundation for
+            agents to discover physical capabilities, turn human intent into
+            governed change, and commission deterministic edge behavior.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href={quickstartUrl}>
-              Start building <span aria-hidden="true">→</span>
+            <a className="button button-primary" href={aiNativeUrl}>
+              Explore the architecture <span aria-hidden="true">→</span>
             </a>
           </div>
-          <p className="hero-note">MIT or Apache-2.0 · Linux edge · Rust 1.90+</p>
+          <p className="hero-note">
+            BETA FOUNDATION · END-USER AGENT EXPERIENCE IN DEVELOPMENT
+          </p>
         </div>
 
-        <div className="edge-visual" aria-label="Edge-first architecture">
-          <div className="visual-label">LIVE SYSTEM</div>
+        <div className="edge-visual" aria-label="AI-native control loop">
+          <div className="visual-label">AI-NATIVE CONTROL LOOP</div>
           <div className="visual-row visual-row-devices">
             <div className="node node-small">
-              <span className="node-light" /> FIELD DEVICES
+              <span className="node-light" /> HUMAN INTENT
             </div>
             <div className="flow-line" aria-hidden="true">
               <span />
@@ -158,23 +165,23 @@ export default function Home() {
           </div>
           <div className="edge-node">
             <div className="edge-node-head">
-              <span>AETHER EDGE</span>
-              <span className="healthy">● HEALTHY</span>
+              <span>AETHER AGENT PLANE</span>
+              <span className="healthy">● GOVERNED</span>
             </div>
             <div className="edge-node-core">
               <div className="pulse-rings" aria-hidden="true">
                 <span className="pulse-core">A</span>
               </div>
               <div>
-                <strong>Local authority</strong>
-                <small>SHM · SQLite · governed commands</small>
+                <strong>Intent becomes a plan</strong>
+                <small>AetherCloud · AetherContracts</small>
               </div>
             </div>
             <div className="service-grid">
-              <span>IO</span>
-              <span>RULES</span>
-              <span>ALARMS</span>
-              <span>HISTORY</span>
+              <span>DISCOVER</span>
+              <span>GENERATE</span>
+              <span>VERIFY</span>
+              <span>EXPLAIN</span>
             </div>
           </div>
           <div className="cloud-path">
@@ -182,8 +189,8 @@ export default function Home() {
               <span />
             </div>
             <div className="node cloud-node">
-              <span>OPTIONAL CLOUDLINK</span>
-              <small>Disconnected? Edge continues.</small>
+              <span>AETHER EDGE · DETERMINISTIC EXECUTION</span>
+              <small>Model offline? Commissioned behavior continues.</small>
             </div>
           </div>
         </div>
@@ -192,29 +199,30 @@ export default function Home() {
       <section className="proof-strip" aria-label="Product proof points">
         <div>
           <strong>3</strong>
-          <span>composable platform products</span>
+          <span>explicit product authorities</span>
         </div>
         <div>
           <strong>0</strong>
-          <span>required cloud services</span>
+          <span>direct model-to-device paths</span>
         </div>
         <div>
           <strong>1</strong>
-          <span>governed application boundary</span>
+          <span>typed application boundary</span>
         </div>
         <div>
           <strong>24/7</strong>
-          <span>local-first operation</span>
+          <span>deterministic edge execution</span>
         </div>
       </section>
 
       <section className="section why" id="why">
         <div className="section-heading">
           <p className="eyebrow">WHY AETHER</p>
-          <h2>Build for the world that actually exists.</h2>
+          <h2>Stop configuring devices. Start describing outcomes.</h2>
           <p>
-            Networks fail. Cloud providers change. AI clients come and go.
-            Physical operations still need deterministic, inspectable behavior.
+            Traditional automation asks people to translate life into entities,
+            triggers, conditions, and actions. Aether is building the governed
+            runtime foundation for agents to do that work safely.
           </p>
         </div>
         <div className="capability-grid">
@@ -232,26 +240,27 @@ export default function Home() {
         <div className="manifesto-rule" aria-hidden="true" />
         <p className="eyebrow">THE OPERATING PRINCIPLE</p>
         <blockquote>
-          “AI may propose. Cloud may coordinate.
-          <strong> The edge makes the final call.</strong>”
+          “Agents generate. Contracts verify.
+          <strong> The edge decides what runs.</strong>”
         </blockquote>
         <div className="manifesto-tags" aria-label="Operating principles">
-          <span>EDGE AUTHORITY</span>
-          <span>DENY BY DEFAULT</span>
-          <span>EXPLICIT AUDIT</span>
+          <span>HUMAN INTENT</span>
+          <span>TYPED PLANS</span>
+          <span>DETERMINISTIC EXECUTION</span>
         </div>
       </section>
 
       <section className="section platform" id="platform">
         <div className="section-heading split-heading">
           <div>
-            <p className="eyebrow">ONE COHERENT STACK</p>
-            <h2>Edge, cloud, and contracts—without blurred authority.</h2>
+            <p className="eyebrow">ONE AGENT-NATIVE SYSTEM</p>
+            <h2>Reason, verify, and execute—without blurred authority.</h2>
           </div>
           <p>
-            AetherIoT is the shared project identity. Each product has one job,
-            and public contracts connect them without turning cloud convenience
-            into a physical safety dependency.
+            The beta already provides deterministic edge execution, governed
+            application boundaries, public contracts, agent-readable docs, and
+            cloud foundations. Conversational generation, simulation, and
+            continuous adaptation remain explicit product direction.
           </p>
         </div>
         <div className="layer-list">
@@ -273,8 +282,8 @@ export default function Home() {
           <span>INDUSTRY SOLUTION</span>
           <strong>AetherEMS</strong>
           <p>
-            An energy-management solution built on the AetherIoT platform,
-            separate from its industry-neutral core products.
+            The first domain solution built on AetherIoT, supplying energy
+            semantics and safety constraints without changing platform authority.
           </p>
           <span aria-hidden="true">↗</span>
         </a>
@@ -284,11 +293,11 @@ export default function Home() {
         <div className="section-heading split-heading">
           <div>
             <p className="eyebrow">ONE DOCUMENTATION HOME</p>
-            <h2>Start with the platform. Go as deep as you need.</h2>
+            <h2>Separate the shipped foundation from the product direction.</h2>
           </div>
           <p>
-            One navigation model connects product concepts, complete tutorials,
-            compatibility evidence, and an honest delivery roadmap.
+            Follow the agent-native architecture, inspect current capabilities,
+            and verify exactly which pieces are implemented, experimental, or planned.
           </p>
         </div>
         <div className="docs-grid">
@@ -304,11 +313,11 @@ export default function Home() {
 
       <section className="section quickstart">
         <div className="quickstart-copy">
-          <p className="eyebrow">NO HARDWARE REQUIRED</p>
-          <h2>Run your first gateway composition.</h2>
+          <p className="eyebrow">FOUNDATION AVAILABLE TODAY</p>
+          <h2>Give an agent real capabilities—not folklore.</h2>
           <p>
-            Start with an empty, industry-neutral gateway. Add devices and a
-            domain Pack only when your application needs them.
+            Start with a safe-empty edge runtime. Let an agent inspect typed
+            capabilities and documentation before it proposes any change.
           </p>
           <a href={docsUrl}>
             Read the documentation <span aria-hidden="true">→</span>
@@ -340,15 +349,15 @@ export default function Home() {
 
       <section className="final-cta">
         <div className="final-orbit" aria-hidden="true" />
-        <p className="eyebrow">BUILD FROM THE EDGE OUT</p>
-        <h2>Your next IoT system should survive the internet.</h2>
+        <p className="eyebrow">THE INTERFACE BECOMES A CONVERSATION</p>
+        <h2>Describe how the physical space should behave.</h2>
         <p>
-          Explore the beta, run the examples, and help shape a safer edge-first
-          foundation.
+          Build the open foundation that lets agents generate change while
+          contracts, policy, and deterministic edge execution keep it real.
         </p>
         <div className="hero-actions">
-          <a className="button button-primary" href={quickstartUrl}>
-            Get started <span aria-hidden="true">→</span>
+          <a className="button button-primary" href={aiNativeUrl}>
+            Explore the architecture <span aria-hidden="true">→</span>
           </a>
           <a className="button button-secondary" href={docsUrl}>
             Read the docs <span aria-hidden="true">↗</span>
@@ -361,7 +370,7 @@ export default function Home() {
           <span className="brand-mark" aria-hidden="true">A</span>
           <span>AetherIoT</span>
         </a>
-        <p>One platform. Edge authority. Open contracts.</p>
+        <p>Describe intent. Verify change. Execute at the edge.</p>
         <div>
           <a href={edgeUrl}>AetherEdge</a>
           <a href={cloudUrl}>AetherCloud</a>

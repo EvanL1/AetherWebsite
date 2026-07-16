@@ -24,7 +24,7 @@ if (!response.ok) {
 }
 
 const html = await response.text();
-if (!html.includes("The cloud can wait.")) {
+if (!html.includes("Describe the outcome.")) {
   throw new Error("Static export did not contain the AetherIoT landing page");
 }
 

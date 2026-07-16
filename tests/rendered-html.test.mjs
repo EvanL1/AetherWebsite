@@ -29,20 +29,27 @@ test("server-renders the AetherIoT product-family landing page", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>AetherIoT — Edge, cloud, and contracts<\/title>/i);
   assert.match(
     html,
-    /<span class="hero-line hero-line-solid">The cloud can wait\.<\/span>/,
+    /<title>AetherIoT — The AI-native runtime for physical spaces<\/title>/i,
   );
   assert.match(
     html,
-    /<span class="hero-line hero-line-outline">The edge cannot\.<\/span>/,
+    /<span class="hero-line hero-line-solid">Describe the outcome\.<\/span>/,
   );
-  assert.match(html, /Start building/);
-  assert.match(html, /AetherIoT is the open-source IoT platform/);
+  assert.match(
+    html,
+    /<span class="hero-line hero-line-outline">Agents build behavior\.<\/span>/,
+  );
+  assert.match(html, /Explore the architecture/);
+  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
   assert.match(html, /AetherEdge/);
   assert.match(html, /AetherCloud/);
   assert.match(html, /AetherContracts/);
+  assert.match(
+    html,
+    /href="https:\/\/docs\.aetheriot\.workers\.dev\/overview\/ai-native-platform\/"/,
+  );
   assert.match(html, /AetherEMS/);
   assert.match(html, /aether-example-minimal-gateway/);
   assert.match(html, /https:\/\/docs\.aetheriot\.workers\.dev\/aetheredge\//);
@@ -86,9 +93,10 @@ test("keeps claims aligned with the current beta product boundary", async () => 
   const response = await render();
   const html = await response.text();
 
-  assert.match(html, /OPEN SOURCE · BETA/);
-  assert.match(html, /OPTIONAL CLOUDLINK/);
-  assert.match(html, /The edge makes the final call/);
+  assert.match(html, /OPEN SOURCE · AI-NATIVE · BETA/);
+  assert.match(html, /AETHER EDGE · DETERMINISTIC EXECUTION/);
+  assert.match(html, /The edge decides what runs/);
+  assert.match(html, /END-USER AGENT EXPERIENCE IN DEVELOPMENT/);
   assert.doesNotMatch(html, /production.ready|production-grade|guaranteed uptime/i);
 });
 
@@ -98,8 +106,8 @@ test("exports a static homepage for Cloudflare Workers", async () => {
     "utf8",
   );
 
-  assert.match(html, /The cloud can wait/);
-  assert.match(html, /AetherIoT is the open-source IoT platform/);
+  assert.match(html, /Describe the outcome/);
+  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
   assert.match(
     html,
     /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,

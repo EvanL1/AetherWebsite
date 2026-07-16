@@ -1,7 +1,10 @@
 # AetherIoT Website
 
-The public landing page for the AetherIoT open-source platform and its
-AetherEdge, AetherCloud, and AetherContracts products.
+The public landing page for AetherIoT: the open-source, AI-native runtime
+foundation for turning human intent into governed, verifiable behavior across
+physical spaces. It presents the distinct roles of AetherEdge, AetherCloud,
+and AetherContracts without presenting the planned end-user agent experience
+as already shipped.
 
 The site is a single route built with vinext and deployed to Cloudflare
 Workers. Product claims must remain aligned with the current beta boundaries in
