@@ -92,7 +92,7 @@ test("keeps claims aligned with the current beta product boundary", async () => 
   assert.doesNotMatch(html, /production.ready|production-grade|guaranteed uptime/i);
 });
 
-test("exports a static homepage for Cloudflare Pages", async () => {
+test("exports a static homepage for Cloudflare Workers", async () => {
   const html = await readFile(
     new URL("../dist/client/index.html", import.meta.url),
     "utf8",
@@ -100,8 +100,24 @@ test("exports a static homepage for Cloudflare Pages", async () => {
 
   assert.match(html, /The cloud can wait/);
   assert.match(html, /AetherIoT is the open-source IoT platform/);
-  assert.match(html, /<meta property="og:image" content="https:\/\/aetheriot\.pages\.dev\/og\.png"/);
+  assert.match(
+    html,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,
+  );
   assert.doesNotMatch(html, /localhost|codex-preview/);
+});
+
+test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
+  const config = JSON.parse(
+    await readFile(
+      new URL("../dist/server/wrangler.json", import.meta.url),
+      "utf8",
+    ),
+  );
+
+  assert.equal(config.name, "www");
+  assert.equal(config.main, "index.js");
+  assert.equal(config.assets.directory, "../client");
 });
 
 test("ships a correctly sized AetherIoT social card", async () => {

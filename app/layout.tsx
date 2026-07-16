@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aetheriot.pages.dev"),
+  metadataBase: new URL("https://www.aetheriot.workers.dev"),
   title: "AetherIoT — Edge, cloud, and contracts",
   description:
     "The open-source IoT platform for reliable edge operation, governed cloud coordination, and portable public contracts.",

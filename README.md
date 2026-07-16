@@ -3,8 +3,8 @@
 The public landing page for the AetherIoT open-source platform and its
 AetherEdge, AetherCloud, and AetherContracts products.
 
-The site is a single static route built with vinext and exported for Cloudflare
-Pages. Product claims must remain aligned with the current beta boundaries in
+The site is a single route built with vinext and deployed to Cloudflare
+Workers. Product claims must remain aligned with the current beta boundaries in
 the AetherIot, AetherCloud, and AetherContracts repositories.
 
 ## Development
@@ -22,9 +22,14 @@ node --test tests/rendered-html.test.mjs
 npm run lint
 ```
 
-`npm run build` writes the deployable static site to `dist/client`.
+`npm run build` writes the Worker entry point to `dist/server` and static assets
+to `dist/client`.
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-Create a Direct Upload project named `aetheriot` and deploy `dist/client`.
-The production URL is expected to be `https://aetheriot.pages.dev`.
+The Worker is named `www` so Cloudflare assigns the free production URL
+`https://www.aetheriot.workers.dev`.
+
+```bash
+npm run deploy:cloudflare
+```
