@@ -118,6 +118,13 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
   assert.equal(config.name, "www");
   assert.equal(config.main, "index.js");
   assert.equal(config.assets.directory, "../client");
+
+  const exportScript = await readFile(
+    new URL("../scripts/export-static.mjs", import.meta.url),
+    "utf8",
+  );
+  assert.match(exportScript, /https:\/\/www\.aetheriot\.workers\.dev\//);
+  assert.doesNotMatch(exportScript, /aetheriot\.pages\.dev/);
 });
 
 test("ships a correctly sized AetherIoT social card", async () => {

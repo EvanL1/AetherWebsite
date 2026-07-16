@@ -5,7 +5,7 @@ workerUrl.searchParams.set("export", `${Date.now()}`);
 const { default: worker } = await import(workerUrl.href);
 
 const response = await worker.fetch(
-  new Request("https://aetheriot.pages.dev/", {
+  new Request("https://www.aetheriot.workers.dev/", {
     headers: { accept: "text/html" },
   }),
   {
