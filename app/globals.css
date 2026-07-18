@@ -12,6 +12,30 @@
   --mint-soft: #d9ffab;
   --amber: #ffbd59;
   --muted: #9aaba5;
+  --bg: var(--ink);
+  --bg-nav: rgba(7, 17, 15, 0.94);
+  --surface: var(--ink-soft);
+  --text: var(--paper);
+  --text-strong: var(--paper-strong);
+  --text-muted: var(--muted);
+  --border: rgba(241, 244, 237, 0.16);
+  --grid-line: rgba(241, 244, 237, 0.045);
+  --accent-text: var(--mint);
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --bg: var(--paper-strong);
+  --bg-nav: rgba(241, 244, 237, 0.94);
+  --surface: var(--paper);
+  --text: #34423d;
+  --text-strong: var(--ink);
+  --text-muted: #5e6b66;
+  --border: rgba(7, 17, 15, 0.14);
+  --line: var(--border);
+  --grid-line: rgba(7, 17, 15, 0.035);
+  --accent-text: #47710f;
+  color-scheme: light;
 }
 
 * {
@@ -20,15 +44,21 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--ink);
+  background: var(--bg);
 }
 
 body {
   margin: 0;
   overflow-x: clip;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 68px 68px;
+  color: var(--text);
+  font-family:
+    var(--font-geist-sans), "Geist", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -40,6 +70,21 @@ a {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+::selection {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
 }
 
 .nav,
@@ -57,7 +102,7 @@ footer {
 }
 
 .nav {
-  position: absolute;
+  position: sticky;
   z-index: 20;
   top: 0;
   left: 50%;
@@ -66,8 +111,10 @@ footer {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(24px, 3.5vw, 72px);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-nav);
   transform: translateX(-50%);
+  backdrop-filter: blur(18px);
 }
 
 .brand {
@@ -108,9 +155,11 @@ footer {
   align-items: center;
   gap: 8px;
   padding: 9px 11px;
-  border: 1px solid rgba(241, 244, 237, 0.13);
-  color: #c5ceca;
-  font-family: var(--font-geist-mono), monospace;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
   font-size: 10px;
   letter-spacing: 0.025em;
   transition:
@@ -124,18 +173,18 @@ footer {
 }
 
 .repo-link > span:first-child {
-  color: #66756f;
+  color: var(--text-muted);
   font-size: 8px;
 }
 
 .repo-link > span:last-child {
-  color: var(--mint);
+  color: var(--accent-text);
 }
 
 .repo-link:hover {
   border-color: rgba(184, 255, 98, 0.5);
   background: rgba(184, 255, 98, 0.05);
-  color: var(--mint-soft);
+  color: var(--accent-text);
 }
 
 footer a,
@@ -145,17 +194,49 @@ footer a,
 
 footer a:hover,
 .quickstart-copy > a:hover {
-  color: var(--mint);
+  color: var(--accent-text);
 }
 
-.nav-cta {
+.site-controls {
+  display: flex;
+  align-items: center;
   justify-self: end;
-  border-bottom: 1px solid var(--mint);
-  color: var(--mint);
-  font-family: var(--font-geist-mono), monospace;
+  gap: 8px;
+}
+
+.locale-link,
+.theme-control,
+.nav-cta {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: rgba(184, 255, 98, 0.025);
+  color: var(--accent-text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
   font-size: 12px;
-  line-height: 28px;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.locale-link:hover,
+.theme-control:hover,
+.nav-cta:hover {
+  border-color: var(--mint);
+  background: rgba(184, 255, 98, 0.07);
+}
+
+.theme-control {
+  cursor: pointer;
 }
 
 .hero {
@@ -166,11 +247,18 @@ footer a:hover,
   align-items: center;
   gap: clamp(48px, 7vw, 108px);
   overflow: hidden;
-  padding: 146px var(--page-gutter) 78px;
+  padding: 62px var(--page-gutter) 78px;
   background:
     radial-gradient(circle at 12% 38%, rgba(184, 255, 98, 0.06), transparent 38%),
     radial-gradient(circle at 86% 36%, rgba(184, 255, 98, 0.09), transparent 28%),
     linear-gradient(150deg, #0a1813 0%, #091711 58%, #0d1d16 100%);
+}
+
+html[data-theme="light"] .hero {
+  background:
+    radial-gradient(circle at 12% 38%, rgba(71, 113, 15, 0.08), transparent 38%),
+    radial-gradient(circle at 86% 36%, rgba(71, 113, 15, 0.1), transparent 28%),
+    linear-gradient(150deg, #fbfcf8 0%, #f1f4ed 58%, #f7f9f3 100%);
 }
 
 .hero-glow {
@@ -191,8 +279,8 @@ footer a:hover,
   inset: 0;
   opacity: 0.22;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 68px 68px;
   mask-image: linear-gradient(to bottom, transparent, black 20%, transparent 94%);
 }
@@ -206,8 +294,10 @@ footer a:hover,
 
 .eyebrow {
   margin: 0 0 22px;
-  color: var(--mint);
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--accent-text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.15em;
@@ -226,7 +316,7 @@ footer a:hover,
 .hero h1 {
   max-width: none;
   margin: 0;
-  color: var(--paper-strong);
+  color: var(--text-strong);
   font-size: clamp(46px, 5vw, 94px);
   font-weight: 565;
   letter-spacing: -0.072em;
@@ -240,13 +330,13 @@ footer a:hover,
 
 .hero-line-outline {
   color: transparent;
-  -webkit-text-stroke: 1.2px rgba(241, 244, 237, 0.72);
+  -webkit-text-stroke: 1.2px color-mix(in srgb, var(--text-strong) 72%, transparent);
 }
 
 .hero-lede {
   max-width: 610px;
   margin: 32px 0 0;
-  color: #bac6c1;
+  color: var(--text-muted);
   font-size: clamp(17px, 1.7vw, 21px);
   line-height: 1.55;
   letter-spacing: -0.025em;
@@ -289,19 +379,21 @@ footer a:hover,
 }
 
 .button-secondary {
-  border-color: rgba(241, 244, 237, 0.3);
-  color: var(--paper);
+  border-color: var(--border);
+  color: var(--text);
 }
 
 .button-secondary:hover {
-  border-color: var(--paper);
+  border-color: var(--text);
   background: rgba(241, 244, 237, 0.06);
 }
 
 .hero-note {
   margin: 18px 0 0;
-  color: #73817c;
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--text-muted);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
 }
@@ -311,15 +403,17 @@ footer a:hover,
   min-height: 450px;
   padding: 32px;
   border: 1px solid rgba(184, 255, 98, 0.22);
-  background: rgba(4, 12, 10, 0.7);
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.34);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: none;
   backdrop-filter: blur(16px);
 }
 
 .visual-label {
   margin-bottom: 30px;
-  color: #65756f;
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--text-muted);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.18em;
 }
@@ -331,15 +425,17 @@ footer a:hover,
 }
 
 .node {
-  border: 1px solid rgba(241, 244, 237, 0.17);
-  background: #0b1714;
-  font-family: var(--font-geist-mono), monospace;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   letter-spacing: 0.08em;
 }
 
 .node-small {
   padding: 12px 14px;
-  color: #a9b5b0;
+  color: var(--text-muted);
   font-size: 9px;
 }
 
@@ -383,8 +479,10 @@ footer a:hover,
   justify-content: space-between;
   padding: 12px 16px;
   border-bottom: 1px solid rgba(184, 255, 98, 0.18);
-  color: #8d9b96;
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--text-muted);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.12em;
 }
@@ -412,8 +510,10 @@ footer a:hover,
 }
 
 .edge-node-core small {
-  color: #7f8e88;
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--text-muted);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
   font-size: 9px;
 }
 
@@ -436,7 +536,9 @@ footer a:hover,
   border-radius: 50%;
   background: var(--mint);
   color: var(--ink);
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
   font-weight: 750;
 }
 
@@ -449,8 +551,10 @@ footer a:hover,
 .service-grid span {
   padding: 10px 4px;
   border-right: 1px solid rgba(184, 255, 98, 0.12);
-  color: #81918b;
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--text-muted);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 8px;
   text-align: center;
 }
@@ -481,7 +585,7 @@ footer a:hover,
 .cloud-node {
   width: 74%;
   padding: 13px 16px;
-  color: #7f8e88;
+  color: var(--text-muted);
   font-size: 8px;
   text-align: center;
 }
@@ -489,7 +593,7 @@ footer a:hover,
 .cloud-node small {
   display: block;
   margin-top: 5px;
-  color: #56645f;
+  color: var(--text-muted);
   letter-spacing: 0;
 }
 
@@ -517,13 +621,15 @@ footer a:hover,
 
 .proof-strip strong {
   margin-bottom: 8px;
-  color: var(--mint);
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--accent-text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 20px;
 }
 
 .proof-strip span {
-  color: #84918c;
+  color: var(--text-muted);
   font-size: 12px;
 }
 
@@ -550,7 +656,7 @@ footer a:hover,
 .split-heading > p,
 .quickstart-copy > p,
 .final-cta > p:not(.eyebrow) {
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 17px;
   line-height: 1.65;
 }
@@ -577,8 +683,10 @@ footer a:hover,
 }
 
 .capability-card > span {
-  color: var(--mint);
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--accent-text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 10px;
 }
 
@@ -592,7 +700,7 @@ footer a:hover,
 
 .capability-card p {
   margin: 0;
-  color: #87958f;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.65;
 }
@@ -628,7 +736,9 @@ footer a:hover,
 .manifesto-tags span {
   padding: 8px 11px;
   border: 1px solid var(--line-dark);
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.08em;
 }
@@ -683,17 +793,19 @@ footer a:hover,
 .layer-index,
 .layer-card > div p,
 .layer-cta {
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 9px;
 }
 
 .layer-index {
-  color: #65746e;
+  color: var(--text-muted);
 }
 
 .layer-card > div p {
   margin: 0 0 10px;
-  color: var(--mint);
+  color: var(--accent-text);
   letter-spacing: 0.1em;
 }
 
@@ -707,13 +819,13 @@ footer a:hover,
 .layer-copy {
   max-width: 430px;
   margin: 0;
-  color: #87958f;
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1.6;
 }
 
 .layer-cta {
-  color: #c7d0cc;
+  color: var(--text);
 }
 
 .solution-card {
@@ -737,7 +849,9 @@ footer a:hover,
 
 .solution-card > span {
   color: var(--amber);
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 9px;
   letter-spacing: 0.1em;
 }
@@ -750,7 +864,7 @@ footer a:hover,
 
 .solution-card > p {
   margin: 0;
-  color: #87958f;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.6;
 }
@@ -790,7 +904,7 @@ footer a:hover,
 
 .docs-card > p {
   margin: 44px 0 0;
-  color: #7f8e88;
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.6;
 }
@@ -799,8 +913,10 @@ footer a:hover,
   position: absolute;
   right: 24px;
   bottom: 22px;
-  color: var(--mint);
-  font-family: var(--font-geist-mono), monospace;
+  color: var(--accent-text);
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
 }
 
 .quickstart {
@@ -820,7 +936,7 @@ footer a:hover,
 }
 
 .quickstart-copy > a {
-  color: var(--mint);
+  color: var(--accent-text);
   font-size: 14px;
 }
 
@@ -828,7 +944,7 @@ footer a:hover,
   min-width: 0;
   border: 1px solid rgba(184, 255, 98, 0.22);
   background: #040b09;
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.26);
+  box-shadow: none;
 }
 
 .terminal-head {
@@ -838,7 +954,9 @@ footer a:hover,
   padding: 13px 17px;
   border-bottom: 1px solid var(--line);
   color: #58655f;
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
   font-size: 8px;
   letter-spacing: 0.12em;
 }
@@ -855,7 +973,9 @@ footer a:hover,
   padding: 42px 34px;
   overflow-x: auto;
   color: #d5ddd9;
-  font-family: var(--font-geist-mono), monospace;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
   font-size: 13px;
   line-height: 1.85;
 }
@@ -932,12 +1052,72 @@ footer {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 30px;
-  color: #697670;
+  color: var(--text-muted);
   font-size: 11px;
 }
 
 footer .brand {
-  color: var(--paper);
+  color: var(--text-strong);
+}
+
+.button,
+.repo-link,
+.capability-card,
+.layer-card,
+.solution-card,
+.docs-card,
+.terminal,
+.edge-visual,
+.locale-link,
+.theme-control {
+  border-radius: 0;
+}
+
+html[lang="zh-CN"] .hero-line {
+  white-space: normal;
+}
+
+html[lang="zh-CN"] h1,
+html[lang="zh-CN"] h2,
+html[lang="zh-CN"] h3 {
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+html[lang="zh-CN"] p {
+  line-height: 1.72;
+}
+
+html[data-theme="light"] .hero-line-outline {
+  -webkit-text-stroke-color: rgba(7, 17, 15, 0.62);
+}
+
+html[data-theme="light"] .edge-node {
+  background: linear-gradient(
+    145deg,
+    rgba(71, 113, 15, 0.08),
+    rgba(7, 17, 15, 0.018)
+  );
+}
+
+html[data-theme="light"] .capability-card {
+  background: linear-gradient(
+    160deg,
+    rgba(71, 113, 15, 0.035),
+    transparent 70%
+  );
+}
+
+html[data-theme="light"] .repo-link:hover,
+html[data-theme="light"] .layer-card:hover,
+html[data-theme="light"] .docs-card:hover {
+  background: rgba(71, 113, 15, 0.055);
+}
+
+html[data-theme="light"] .locale-link,
+html[data-theme="light"] .theme-control,
+html[data-theme="light"] .nav-cta {
+  background: rgba(7, 17, 15, 0.02);
 }
 
 footer > div {
@@ -978,7 +1158,7 @@ footer > div {
 
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 182px;
+    padding-top: 58px;
   }
 
   .hero-copy {
@@ -1026,7 +1206,7 @@ footer > div {
 
 @media (max-width: 720px) {
   :root {
-    --page-gutter: 16px;
+    --page-gutter: 20px;
   }
 
   .nav {
@@ -1041,7 +1221,7 @@ footer > div {
 
   .hero {
     min-height: auto;
-    padding-top: 168px;
+    padding-top: 48px;
   }
 
   .hero h1 {
@@ -1138,6 +1318,18 @@ footer > div {
   footer > div {
     flex-wrap: wrap;
     justify-content: flex-start;
+  }
+
+  .theme-control > span:last-child,
+  .nav-cta > span {
+    display: none;
+  }
+
+  .locale-link,
+  .theme-control,
+  .nav-cta {
+    min-width: 36px;
+    padding: 0 9px;
   }
 }
 

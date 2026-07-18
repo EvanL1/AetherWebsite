@@ -4,30 +4,53 @@ const workerUrl = new URL("../dist/server/index.js", import.meta.url);
 workerUrl.searchParams.set("export", `${Date.now()}`);
 const { default: worker } = await import(workerUrl.href);
 
-const response = await worker.fetch(
-  new Request("https://www.aetheriot.workers.dev/", {
-    headers: { accept: "text/html" },
-  }),
+const routes = [
   {
-    ASSETS: {
-      fetch: async () => new Response("Not found", { status: 404 }),
-    },
+    path: "/",
+    output: "index.html",
+    marker: "描述你想要的结果。",
+    language: 'lang="zh-CN"',
   },
   {
-    waitUntil() {},
-    passThroughOnException() {},
+    path: "/en/",
+    output: "en/index.html",
+    marker: "Describe the outcome.",
+    language: 'lang="en"',
   },
-);
-
-if (!response.ok) {
-  throw new Error(`Static export failed with HTTP ${response.status}`);
-}
-
-const html = await response.text();
-if (!html.includes("Describe the outcome.")) {
-  throw new Error("Static export did not contain the AetherIoT landing page");
-}
+];
 
 const clientDirectory = new URL("../dist/client/", import.meta.url);
-await mkdir(clientDirectory, { recursive: true });
-await writeFile(new URL("index.html", clientDirectory), html, "utf8");
+
+for (const route of routes) {
+  const response = await worker.fetch(
+    new Request(new URL(route.path, "https://www.aetheriot.workers.dev"), {
+      headers: { accept: "text/html" },
+    }),
+    {
+      ASSETS: {
+        fetch: async () => new Response("Not found", { status: 404 }),
+      },
+    },
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `Static export for ${route.path} failed with HTTP ${response.status}`,
+    );
+  }
+
+  const html = await response.text();
+  if (!html.includes(route.marker) || !html.includes(route.language)) {
+    throw new Error(
+      `Static export for ${route.path} did not contain its localized landing page`,
+    );
+  }
+
+  const outputUrl = new URL(route.output, clientDirectory);
+  await mkdir(new URL("./", outputUrl), { recursive: true });
+  await writeFile(outputUrl, html, "utf8");
+}

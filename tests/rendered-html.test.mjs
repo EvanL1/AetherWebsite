@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${path}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(new URL(path, "http://localhost"), {
       headers: { accept: "text/html" },
     }),
     {
@@ -23,43 +23,116 @@ async function render() {
   );
 }
 
-test("server-renders the AetherIoT product-family landing page", async () => {
-  const response = await render();
+async function htmlFor(path = "/") {
+  const response = await render(path);
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+  return response.text();
+}
 
-  const html = await response.text();
-  assert.match(
-    html,
-    /<title>AetherIoT — The AI-native runtime for physical spaces<\/title>/i,
-  );
-  assert.match(
-    html,
-    /<span class="hero-line hero-line-solid">Describe the outcome\.<\/span>/,
-  );
-  assert.match(
-    html,
-    /<span class="hero-line hero-line-outline">Agents build behavior\.<\/span>/,
-  );
-  assert.match(html, /Explore the architecture/);
-  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
+test("server-renders Chinese as the default AetherIoT landing page", async () => {
+  const html = await htmlFor("/");
+
+  assert.match(html, /<html lang="zh-CN"/);
+  assert.match(html, /<title>AetherIoT｜面向物理空间的人工智能原生运行平台<\/title>/);
+  assert.match(html, /描述你想要的结果。/);
+  assert.match(html, /由智能体生成行为。/);
+  assert.match(html, /面向物理空间的开源、人工智能原生运行平台/);
   assert.match(html, /AetherEdge/);
   assert.match(html, /AetherCloud/);
   assert.match(html, /AetherContracts/);
-  assert.match(
-    html,
-    /href="https:\/\/docs\.aetheriot\.workers\.dev\/overview\/ai-native-platform\/"/,
-  );
   assert.match(html, /AetherEMS/);
   assert.match(html, /aether-example-minimal-gateway/);
-  assert.match(html, /https:\/\/docs\.aetheriot\.workers\.dev\/aetheredge\//);
-  assert.match(html, /https:\/\/github\.com\/EvanL1\/AetherEdge/);
+  assert.doesNotMatch(
+    html,
+    /Describe the outcome|Explore the architecture|OPEN SOURCE|WHY AETHER|QUICKSTART|>Tutorials</,
+  );
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
+test("serves the complete English site at /en/", async () => {
+  const html = await htmlFor("/en/");
+
+  assert.match(html, /<html lang="en"/);
+  assert.match(
+    html,
+    /<title>AetherIoT — The AI-native runtime for physical spaces<\/title>/,
+  );
+  assert.match(html, /Describe the outcome\./);
+  assert.match(html, /Agents build behavior\./);
+  assert.match(html, /Explore the architecture/);
+  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
+  assert.doesNotMatch(html, /描述你想要的结果|由智能体生成行为/);
+});
+
+test("publishes localized canonical, alternate, and Open Graph metadata", async () => {
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
+
+  for (const html of [chinese, english]) {
+    assert.match(
+      html,
+      /<link rel="alternate" hrefLang="zh-CN" href="https:\/\/www\.aetheriot\.workers\.dev\/"/,
+    );
+    assert.match(
+      html,
+      /<link rel="alternate" hrefLang="en" href="https:\/\/www\.aetheriot\.workers\.dev\/en\/"/,
+    );
+    assert.match(
+      html,
+      /<link rel="alternate" hrefLang="x-default" href="https:\/\/www\.aetheriot\.workers\.dev\/"/,
+    );
+  }
+
+  assert.match(
+    chinese,
+    /<link rel="canonical" href="https:\/\/www\.aetheriot\.workers\.dev\/"/,
+  );
+  assert.match(
+    chinese,
+    /<meta name="description" content="面向智能体的开源运行平台，把人的意图转化为受治理、可验证，并由边缘端确定执行的现实行为。"/,
+  );
+  assert.match(chinese, /<meta property="og:locale" content="zh_CN"/);
+  assert.match(
+    chinese,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-zh\.png"/,
+  );
+  assert.match(
+    english,
+    /<link rel="canonical" href="https:\/\/www\.aetheriot\.workers\.dev\/en\/"/,
+  );
+  assert.match(
+    english,
+    /<meta name="description" content="The open-source runtime foundation for agents to turn human intent into governed, verifiable physical behavior."\/>/,
+  );
+  assert.match(english, /<meta property="og:locale" content="en_US"/);
+  assert.match(
+    english,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,
+  );
+});
+
+test("offers accessible language and theme controls on both routes", async () => {
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
+
+  assert.match(
+    chinese,
+    /<a[^>]+class="locale-link"[^>]+href="\/en\/"[^>]+hrefLang="en"/,
+  );
+  assert.match(chinese, /aria-label="切换到英文"/);
+  assert.match(chinese, /aria-label="切换明暗主题"/);
+
+  assert.match(
+    english,
+    /<a[^>]+class="locale-link"[^>]+href="\/"[^>]+hrefLang="zh-CN"/,
+  );
+  assert.match(english, /aria-label="Switch to Chinese"/);
+  assert.match(english, /aria-label="Toggle color theme"/);
+});
+
 test("makes all three repositories explicit in the primary navigation", async () => {
-  const response = await render();
-  const html = await response.text();
+  const html = await htmlFor("/");
   const navigation = html.match(/<nav\b[\s\S]*?<\/nav>/)?.[0] ?? "";
 
   assert.match(navigation, /https:\/\/github\.com\/EvanL1\/AetherEdge/);
@@ -71,48 +144,97 @@ test("makes all three repositories explicit in the primary navigation", async ()
   assert.doesNotMatch(html, /View on GitHub|Star on GitHub/);
 });
 
-test("links the unified documentation architecture", async () => {
-  const response = await render();
-  const html = await response.text();
+test("links each language to the matching documentation corpus", async () => {
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
 
-  for (const [label, path] of [
-    ["Overview", "overview/platform"],
-    ["AetherEdge", "aetheredge"],
-    ["AetherCloud", "aethercloud"],
-    ["AetherContracts", "aethercontracts"],
-    ["Tutorials", "tutorials/edge-contracts-cloud"],
-    ["Compatibility", "compatibility/version-matrix"],
-    ["Roadmap", "roadmap/status"],
+  for (const path of [
+    "overview/ai-native-platform",
+    "overview/platform",
+    "aetheredge",
+    "aethercloud",
+    "aethercontracts",
+    "tutorials/edge-contracts-cloud",
+    "compatibility/version-matrix",
+    "roadmap/status",
   ]) {
-    assert.match(html, new RegExp(`>${label}<`));
-    assert.match(html, new RegExp(`https://docs\\.aetheriot\\.workers\\.dev/${path}/`));
+    assert.match(
+      chinese,
+      new RegExp(`https://docs\\.aetheriot\\.workers\\.dev/${path}/`),
+    );
+    assert.match(
+      english,
+      new RegExp(`https://docs\\.aetheriot\\.workers\\.dev/en/${path}/`),
+    );
   }
+
+  assert.doesNotMatch(
+    chinese,
+    /https:\/\/docs\.aetheriot\.workers\.dev\/en\//,
+  );
 });
 
 test("keeps claims aligned with the current beta product boundary", async () => {
-  const response = await render();
-  const html = await response.text();
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
 
-  assert.match(html, /OPEN SOURCE · AI-NATIVE · BETA/);
-  assert.match(html, /AETHER EDGE · DETERMINISTIC EXECUTION/);
-  assert.match(html, /The edge decides what runs/);
-  assert.match(html, /END-USER AGENT EXPERIENCE IN DEVELOPMENT/);
-  assert.doesNotMatch(html, /production.ready|production-grade|guaranteed uptime/i);
+  assert.match(chinese, /开源 · 人工智能原生 · 测试版/);
+  assert.match(chinese, /边缘端决定实际执行的行为/);
+  assert.match(
+    chinese,
+    /面向最终用户的智能体体验仍在开发中/,
+  );
+  assert.doesNotMatch(
+    chinese,
+    /24\/7|全天候|生产就绪|生产级|保证可用|完全自主|无需任何配置/,
+  );
+
+  assert.match(english, /OPEN SOURCE · AI-NATIVE · BETA/);
+  assert.match(english, /The edge decides what runs/);
+  assert.match(english, /END-USER AGENT EXPERIENCE IN DEVELOPMENT/);
+  assert.doesNotMatch(english, /24\/7|production.ready|production-grade|guaranteed uptime/i);
 });
 
-test("exports a static homepage for Cloudflare Workers", async () => {
-  const html = await readFile(
+test("keeps both localized pages structurally identical", async () => {
+  const pages = [await htmlFor("/"), await htmlFor("/en/")];
+
+  for (const html of pages) {
+    assert.equal(html.match(/<main>/g)?.length, 1);
+    assert.equal(html.match(/<nav\b/g)?.length, 1);
+    assert.equal(html.match(/<h1>/g)?.length, 1);
+    assert.equal(html.match(/<footer>/g)?.length, 1);
+    assert.equal(html.match(/class="capability-card"/g)?.length, 3);
+    assert.equal(html.match(/class="layer-card"/g)?.length, 3);
+    assert.equal(html.match(/class="docs-card"/g)?.length, 8);
+  }
+});
+
+test("exports static Chinese and English homepages for Cloudflare Workers", async () => {
+  const chinese = await readFile(
     new URL("../dist/client/index.html", import.meta.url),
     "utf8",
   );
+  const english = await readFile(
+    new URL("../dist/client/en/index.html", import.meta.url),
+    "utf8",
+  );
 
-  assert.match(html, /Describe the outcome/);
-  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
+  assert.match(chinese, /描述你想要的结果/);
+  assert.match(chinese, /<html lang="zh-CN"/);
+  assert.match(english, /Describe the outcome/);
+  assert.match(english, /<html lang="en"/);
+
+  for (const html of [chinese, english]) {
+    assert.doesNotMatch(html, /localhost|codex-preview/);
+  }
   assert.match(
-    html,
+    chinese,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-zh\.png"/,
+  );
+  assert.match(
+    english,
     /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,
   );
-  assert.doesNotMatch(html, /localhost|codex-preview/);
 });
 
 test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
@@ -131,19 +253,36 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
     new URL("../scripts/export-static.mjs", import.meta.url),
     "utf8",
   );
-  assert.match(exportScript, /https:\/\/www\.aetheriot\.workers\.dev\//);
+  assert.match(exportScript, /https:\/\/www\.aetheriot\.workers\.dev/);
+  assert.match(exportScript, /en\/index\.html/);
   assert.doesNotMatch(exportScript, /aetheriot\.pages\.dev/);
 });
 
 test("ships a correctly sized AetherIoT social card", async () => {
-  const image = await readFile(new URL("../public/og.png", import.meta.url));
+  for (const filename of ["og.png", "og-zh.png"]) {
+    const image = await readFile(
+      new URL(`../public/${filename}`, import.meta.url),
+    );
 
-  assert.equal(image.subarray(1, 4).toString("ascii"), "PNG");
-  assert.equal(image.readUInt32BE(16), 1200);
-  assert.equal(image.readUInt32BE(20), 630);
+    assert.equal(image.subarray(1, 4).toString("ascii"), "PNG");
+    assert.equal(image.readUInt32BE(16), 1200);
+    assert.equal(image.readUInt32BE(20), 630);
+  }
 });
 
-test("keeps the visual frame fluid to the viewport edges", async () => {
+test("documents both locales and the unshipped conversational boundary", async () => {
+  const readme = await readFile(
+    new URL("../README.md", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(readme, /根路径 `\/` 提供中文页面/);
+  assert.match(readme, /`\/en\/` 提供英文页面/);
+  assert.match(readme, /仍在开发的最终用户对话式智能体体验/);
+  assert.doesNotMatch(readme, /AetherIot/);
+});
+
+test("shares the responsive brand frame and explicit light theme", async () => {
   const css = await readFile(
     new URL("../app/globals.css", import.meta.url),
     "utf8",
@@ -158,5 +297,8 @@ test("keeps the visual frame fluid to the viewport edges", async () => {
   assert.match(css, /circle at 12% 38%/);
   assert.match(css, /overflow-x:\s*clip/);
   assert.match(css, /\.hero-line\s*{[\s\S]*?white-space:\s*nowrap/);
-  assert.match(css, /@media \(max-width:\s*720px\)[\s\S]*--page-gutter:\s*16px/);
+  assert.match(css, /html\[data-theme="light"\]/);
+  assert.match(css, /PingFang SC/);
+  assert.match(css, /\.site-controls/);
+  assert.match(css, /@media \(max-width:\s*720px\)[\s\S]*--page-gutter:\s*20px/);
 });
