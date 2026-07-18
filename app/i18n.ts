@@ -216,9 +216,9 @@ export const siteContent = {
           href: docsUrl("zh-CN", "aethercontracts/"),
         },
         {
-          title: "教程",
+          title: "边缘、契约与云端联动指南",
           copy: "完成从 AetherEdge 经 AetherContracts 到 AetherCloud 的完整流程。",
-          href: docsUrl("zh-CN", "tutorials/edge-contracts-cloud/"),
+          href: docsUrl("zh-CN", "guides/edge-contracts-cloud/"),
         },
         {
           title: "兼容性",
@@ -393,9 +393,9 @@ export const siteContent = {
           href: docsUrl("en", "aethercontracts/"),
         },
         {
-          title: "Tutorials",
-          copy: "Follow complete Edge → Contracts → Cloud workflows.",
-          href: docsUrl("en", "tutorials/edge-contracts-cloud/"),
+          title: "Edge–Contracts–Cloud integration guide",
+          copy: "Follow the complete AetherEdge → AetherContracts → AetherCloud integration flow.",
+          href: docsUrl("en", "guides/edge-contracts-cloud/"),
         },
         {
           title: "Compatibility",

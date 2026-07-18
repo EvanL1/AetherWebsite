@@ -154,7 +154,7 @@ test("links each language to the matching documentation corpus", async () => {
     "aetheredge",
     "aethercloud",
     "aethercontracts",
-    "tutorials/edge-contracts-cloud",
+    "guides/edge-contracts-cloud",
     "compatibility/version-matrix",
     "roadmap/status",
   ]) {
@@ -172,6 +172,10 @@ test("links each language to the matching documentation corpus", async () => {
     chinese,
     /https:\/\/docs\.aetheriot\.workers\.dev\/en\//,
   );
+  assert.match(chinese, />边缘、契约与云端联动指南</);
+  assert.match(english, />Edge–Contracts–Cloud integration guide</);
+  assert.doesNotMatch(chinese, /tutorials\/edge-contracts-cloud|>教程</);
+  assert.doesNotMatch(english, /tutorials\/edge-contracts-cloud|>Tutorials</);
 });
 
 test("keeps claims aligned with the current beta product boundary", async () => {
