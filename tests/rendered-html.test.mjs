@@ -54,6 +54,7 @@ test("server-renders Chinese as the default AetherIoT landing page", async () =>
   assert.match(html, /AetherContracts/);
   assert.match(html, /AetherEMS/);
   assert.match(html, /aether-example-minimal-gateway/);
+  assert.doesNotMatch(html, /人工智能/);
   assert.doesNotMatch(
     html,
     /Describe the outcome|Explore the architecture|OPEN SOURCE|WHY AETHER|QUICKSTART|>Tutorials</,
@@ -194,7 +195,7 @@ test("keeps claims aligned with the current beta product boundary", async () => 
   const chinese = heroFor(await htmlFor("/"));
   const english = heroFor(await htmlFor("/en/"));
 
-  assert.match(chinese, /开源 · 人工智能原生 · 开发者预览/);
+  assert.match(chinese, /开源 · AI 原生 · 开发者预览/);
   assert.match(chinese, /当前可用：本地运行、规则、告警与安全联锁/);
   assert.match(chinese, /开发中：面向家庭用户的对话配置/);
   assert.doesNotMatch(
@@ -383,6 +384,8 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
     assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherContracts/);
   }
   assert.match(chineseAgents, /智能体提出可检查的自动化方案/);
+  assert.match(chineseAgents, /开源 AI 原生运行平台/);
+  assert.doesNotMatch(chineseAgents, /人工智能/);
   assert.match(englishAgents, /agents propose inspectable automations/i);
 
   const chinese = await htmlFor("/");
@@ -426,7 +429,7 @@ test("documents both locales and the unshipped conversational boundary", async (
   assert.match(readme, /`\/en\/` 提供英文页面/);
   assert.match(readme, /智能体提出可检查的自动化方案/);
   assert.match(readme, /仍在开发的家庭对话配置体验/);
-  assert.doesNotMatch(readme, /AetherIot/);
+  assert.doesNotMatch(readme, /AetherIot|人工智能/);
 });
 
 test("shares the responsive brand frame and explicit light theme", async () => {

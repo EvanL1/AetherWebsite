@@ -93,7 +93,7 @@ export const siteContent = {
     docsHome: docsUrl("zh-CN"),
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
     hero: {
-      status: "开源 · 人工智能原生 · 开发者预览",
+      status: "开源 · AI 原生 · 开发者预览",
       lineOne: "不再逐项配置设备。",
       lineTwo: "说出你想要的家。",
       lede:
@@ -235,7 +235,7 @@ export const siteContent = {
         "查阅面向智能体的架构，核对当前能力，并确认每项能力处于已实现、试验中还是规划中。",
       items: [
         {
-          title: "人工智能原生平台",
+          title: "AI 原生平台",
           copy: "了解对话如何转化为受治理的计划和确定性的边缘行为。",
           href: docsUrl("zh-CN", "overview/ai-native-platform/"),
         },
