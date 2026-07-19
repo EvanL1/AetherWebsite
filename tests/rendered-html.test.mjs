@@ -37,7 +37,8 @@ test("server-renders Chinese as the default AetherIoT landing page", async () =>
   assert.match(html, /<title>AetherIoT｜面向物理空间的人工智能原生运行平台<\/title>/);
   assert.match(html, /描述你想要的结果。/);
   assert.match(html, /由智能体生成行为。/);
-  assert.match(html, /面向物理空间的开源、人工智能原生运行平台/);
+  assert.match(html, /智能体生成可审查的计划/);
+  assert.match(html, /了解智能体如何工作/);
   assert.match(html, /AetherEdge/);
   assert.match(html, /AetherCloud/);
   assert.match(html, /AetherContracts/);
@@ -60,8 +61,8 @@ test("serves the complete English site at /en/", async () => {
   );
   assert.match(html, /Describe the outcome\./);
   assert.match(html, /Agents build behavior\./);
-  assert.match(html, /Explore the architecture/);
-  assert.match(html, /AetherIoT is the open-source, AI-native runtime foundation/);
+  assert.match(html, /See how agents work/);
+  assert.match(html, /Agents produce inspectable plans/);
   assert.doesNotMatch(html, /描述你想要的结果|由智能体生成行为/);
 });
 
@@ -199,6 +200,26 @@ test("keeps claims aligned with the current beta product boundary", async () => 
   assert.doesNotMatch(english, /24\/7|production.ready|production-grade|guaranteed uptime/i);
 });
 
+test("states runtime invariants instead of presenting arbitrary proof metrics", async () => {
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
+  const chineseProof =
+    chinese.match(/<section class="proof-strip"[\s\S]*?<\/section>/)?.[0] ?? "";
+  const englishProof =
+    english.match(/<section class="proof-strip"[\s\S]*?<\/section>/)?.[0] ?? "";
+
+  for (const value of ["智能体生成", "契约验证", "边缘裁决", "断网继续"]) {
+    assert.match(chineseProof, new RegExp(`>${value}<`));
+  }
+  assert.match(chinese, /不可绕过的运行约束/);
+  assert.doesNotMatch(chineseProof, />3<|>0<|>1<|>本地</);
+
+  for (const value of ["GENERATE", "VERIFY", "DECIDE", "CONTINUE"]) {
+    assert.match(englishProof, new RegExp(`>${value}<`));
+  }
+  assert.match(english, /NON-NEGOTIABLE RUNTIME INVARIANTS/);
+});
+
 test("keeps both localized pages structurally identical", async () => {
   const pages = [await htmlFor("/"), await htmlFor("/en/")];
 
@@ -274,6 +295,67 @@ test("ships a correctly sized AetherIoT social card", async () => {
   }
 });
 
+test("publishes browser, crawler, sitemap, and agent discovery resources", async () => {
+  const [favicon, robots, sitemap, chineseAgents, englishAgents] =
+    await Promise.all([
+      readFile(new URL("../public/favicon.svg", import.meta.url), "utf8"),
+      readFile(new URL("../public/robots.txt", import.meta.url), "utf8"),
+      readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
+      readFile(new URL("../public/llms.txt", import.meta.url), "utf8"),
+      readFile(new URL("../public/en/llms.txt", import.meta.url), "utf8"),
+    ]);
+
+  assert.match(favicon, /stroke="#b8ff62"/);
+  assert.match(
+    robots,
+    /Sitemap: https:\/\/www\.aetheriot\.workers\.dev\/sitemap\.xml/,
+  );
+  assert.match(sitemap, /<loc>https:\/\/www\.aetheriot\.workers\.dev\/<\/loc>/);
+  assert.match(
+    sitemap,
+    /<loc>https:\/\/www\.aetheriot\.workers\.dev\/en\/<\/loc>/,
+  );
+
+  for (const agentIndex of [chineseAgents, englishAgents]) {
+    assert.match(
+      agentIndex,
+      /https:\/\/docs\.aetheriot\.workers\.dev\/(?:en\/)?llms\.txt/,
+    );
+    assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherEdge/);
+    assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherCloud/);
+    assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherContracts/);
+  }
+
+  const chinese = await htmlFor("/");
+  const english = await htmlFor("/en/");
+  assert.match(
+    chinese,
+    /<link rel="icon" href="https:\/\/www\.aetheriot\.workers\.dev\/favicon\.svg" type="image\/svg\+xml"/,
+  );
+  assert.match(
+    chinese,
+    /<link rel="alternate" type="text\/plain" href="\/llms\.txt"/,
+  );
+  assert.match(
+    english,
+    /<link rel="alternate" type="text\/plain" href="\/en\/llms\.txt"/,
+  );
+  assert.match(
+    chinese,
+    /<link rel="sitemap" type="application\/xml" href="\/sitemap\.xml"/,
+  );
+
+  for (const path of [
+    "favicon.svg",
+    "robots.txt",
+    "sitemap.xml",
+    "llms.txt",
+    "en/llms.txt",
+  ]) {
+    await readFile(new URL(`../dist/client/${path}`, import.meta.url));
+  }
+});
+
 test("documents both locales and the unshipped conversational boundary", async () => {
   const readme = await readFile(
     new URL("../README.md", import.meta.url),
@@ -305,4 +387,34 @@ test("shares the responsive brand frame and explicit light theme", async () => {
   assert.match(css, /PingFang SC/);
   assert.match(css, /\.site-controls/);
   assert.match(css, /@media \(max-width:\s*720px\)[\s\S]*--page-gutter:\s*20px/);
+});
+
+test("keeps the sticky navigation centered and the hero content-driven", async () => {
+  const css = await readFile(
+    new URL("../app/globals.css", import.meta.url),
+    "utf8",
+  );
+  const navigation = css.match(/\.nav\s*{[\s\S]*?\n}/)?.[0] ?? "";
+  const hero = css.match(/\.hero\s*{[\s\S]*?\n}/)?.[0] ?? "";
+
+  assert.match(navigation, /position:\s*sticky/);
+  assert.match(navigation, /margin-inline:\s*auto/);
+  assert.doesNotMatch(navigation, /left:\s*50%|translateX/);
+
+  assert.match(
+    hero,
+    /min-height:\s*clamp\(680px,\s*calc\(100svh - 84px\),\s*790px\)/,
+  );
+  assert.match(
+    css,
+    /\.hero h1\s*{[\s\S]*?font-size:\s*clamp\(46px,\s*4\.6vw,\s*84px\)/,
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1024px\)[\s\S]*?\.hero\s*{[^}]*min-height:\s*auto/,
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1024px\)[\s\S]*?\.hero h1\s*{[^}]*font-size:\s*clamp\(46px,\s*7\.2vw,\s*72px\)/,
+  );
 });
