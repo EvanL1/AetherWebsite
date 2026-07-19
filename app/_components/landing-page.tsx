@@ -68,48 +68,53 @@ export function LandingPage({ content }: { content: SiteContent }) {
           <p className="hero-note">{content.hero.note}</p>
         </div>
 
-        <div className="edge-visual" aria-label={content.controlLoop.ariaLabel}>
-          <div className="visual-label">{content.controlLoop.label}</div>
-          <div className="visual-row visual-row-devices">
-            <div className="node node-small">
-              <span className="node-light" /> {content.controlLoop.intent}
+        <section className="home-scene" aria-label={content.homeScene.ariaLabel}>
+          <header className="home-scene-head">
+            <span>{content.homeScene.label}</span>
+            <span className="home-local-status">
+              <span aria-hidden="true" /> {content.homeScene.localStatus}
+            </span>
+          </header>
+
+          <p className="home-scene-disclaimer">
+            {content.homeScene.disclaimer}
+          </p>
+
+          <blockquote className="home-goal">
+            <small>{content.homeScene.goalLabel}</small>
+            <p>{content.homeScene.goal}</p>
+          </blockquote>
+
+          <ul className="device-grid">
+            {content.homeScene.devices.map((device) => (
+              <li className="device-card" key={device.name}>
+                <span
+                  className={`device-icon device-icon-${device.kind}`}
+                  aria-hidden="true"
+                />
+                <span className="device-copy">
+                  <small>{device.room}</small>
+                  <strong>{device.name}</strong>
+                  <span>{device.detail}</span>
+                </span>
+                <strong className="device-value">{device.value}</strong>
+              </li>
+            ))}
+          </ul>
+
+          <div className="automation-result">
+            <div>
+              <small>{content.homeScene.resultLabel}</small>
+              <strong>{content.homeScene.resultTitle}</strong>
+              <p>{content.homeScene.result}</p>
             </div>
-            <div className="flow-line" aria-hidden="true">
-              <span />
-            </div>
-          </div>
-          <div className="edge-node">
-            <div className="edge-node-head">
-              <span>{content.controlLoop.agentPlane}</span>
-              <span className="healthy">
-                ● {content.controlLoop.governed}
-              </span>
-            </div>
-            <div className="edge-node-core">
-              <div className="pulse-rings" aria-hidden="true">
-                <span className="pulse-core">A</span>
-              </div>
-              <div>
-                <strong>{content.controlLoop.plan}</strong>
-                <small>{content.controlLoop.planeProducts}</small>
-              </div>
-            </div>
-            <div className="service-grid">
-              {content.controlLoop.services.map((service) => (
-                <span key={service}>{service}</span>
+            <div className="automation-checks">
+              {content.homeScene.checks.map((check) => (
+                <span key={check}>{check}</span>
               ))}
             </div>
           </div>
-          <div className="cloud-path">
-            <div className="flow-line vertical" aria-hidden="true">
-              <span />
-            </div>
-            <div className="node cloud-node">
-              <span>{content.controlLoop.edge}</span>
-              <small>{content.controlLoop.offline}</small>
-            </div>
-          </div>
-        </div>
+        </section>
       </section>
 
       <section className="proof-strip" aria-label={content.proofLabel}>

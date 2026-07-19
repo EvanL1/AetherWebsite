@@ -26,16 +26,16 @@ const sharedAlternates = {
 export function createMetadata(locale: Locale): Metadata {
   const isChinese = locale === "zh-CN";
   const title = isChinese
-    ? "AetherIoT｜面向物理空间的人工智能原生运行平台"
-    : "AetherIoT — The AI-native runtime for physical spaces";
+    ? "AetherIoT｜从逐项配置走向对话式智能家居"
+    : "AetherIoT — From device setup to conversational homes";
   const description = isChinese
-    ? "面向智能体的开源运行平台，把人的意图转化为受治理、可验证，并由边缘端确定执行的现实行为。"
-    : "The open-source runtime foundation for agents to turn human intent into governed, verifiable physical behavior.";
+    ? "AetherIoT 正在构建对话式智能家居：智能体提出可检查的自动化方案，再由 AetherEdge 在家中安全执行。"
+    : "AetherIoT is building a conversational smart-home experience where agents propose inspectable automations and AetherEdge runs them safely at home.";
   const socialDescription = isChinese
-    ? "说出想要的结果，让智能体生成受治理的变更，再由边缘端确定执行。"
-    : "Describe the outcome. Let agents generate governed behavior that the edge can execute without the model.";
+    ? "正在构建不需要逐项配置设备的智能家居，让生活需求变成安全的本地自动化。"
+    : "Building a smart-home experience that turns everyday requests into safe local automations.";
   const canonical = isChinese ? "/" : "/en/";
-  const socialImage = isChinese ? "/og-zh.png" : "/og.png";
+  const socialImage = "/og-home.png";
 
   return {
     metadataBase: new URL(websiteUrl),
@@ -62,8 +62,8 @@ export function createMetadata(locale: Locale): Metadata {
           width: 1200,
           height: 630,
           alt: isChinese
-            ? "AetherIoT——面向物理空间的人工智能原生运行平台。"
-            : "AetherIoT — The AI-native runtime for physical spaces.",
+            ? "AetherIoT 智能家居目标体验示意。"
+            : "AetherIoT smart-home concept.",
         },
       ],
     },
@@ -71,8 +71,8 @@ export function createMetadata(locale: Locale): Metadata {
       card: "summary_large_image",
       title,
       description: isChinese
-        ? "描述意图，验证变更，在边缘端执行。"
-        : "Describe the outcome. Verify the change. Execute it at the edge.",
+        ? "正在构建从生活需求到安全本地自动化的完整路径。"
+        : "Building a path from everyday needs to safe local automations.",
       images: [socialImage],
     },
   };
@@ -93,32 +93,72 @@ export const siteContent = {
     docsHome: docsUrl("zh-CN"),
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
     hero: {
-      status: "开源 · 人工智能原生 · 测试版",
-      lineOne: "描述你想要的结果。",
-      lineTwo: "由智能体生成行为。",
+      status: "开源 · 人工智能原生 · 开发者预览",
+      lineOne: "不再逐项配置设备。",
+      lineTwo: "说出你想要的家。",
       lede:
-        "说出目标和约束。智能体生成可审查的计划，AetherContracts 验证变更，AetherEdge 按现场策略确定执行；已经投运的行为不依赖模型或云端持续在线。",
-      action: "了解智能体如何工作",
-      note: "测试版基础能力已经可用 · 面向最终用户的智能体体验仍在开发中",
+        "AetherIoT 正在构建这样的体验：智能体把你的要求变成一份可检查的家庭自动化方案；确认后，由家中的 AetherEdge 按设备能力、权限和安全规则在本地执行。",
+      action: "了解目标体验与当前能力",
+      note: "当前可用：本地运行、规则、告警与安全联锁 · 开发中：面向家庭用户的对话配置",
     },
-    controlLoop: {
-      ariaLabel: "人工智能原生控制闭环",
-      label: "人工智能原生控制闭环",
-      intent: "人的意图",
-      agentPlane: "Aether 智能体平面",
-      governed: "受治理",
-      plan: "意图转化为计划",
-      planeProducts: "AetherCloud · AetherContracts",
-      services: ["发现", "生成", "验证", "解释"],
-      edge: "AetherEdge · 确定性执行",
-      offline: "即使模型离线，已经启用的行为也会继续运行。",
+    homeScene: {
+      ariaLabel: "智能家居设备协作示例",
+      label: "目标体验示例 · 夜间节能",
+      localStatus: "概念演示",
+      disclaimer:
+        "示意数据，不代表当前设备兼容性；自然语言家庭配置仍在开发。",
+      goalLabel: "目标体验中，你可以这样说",
+      goal:
+        "“晚上十点后，客厅无人 10 分钟就关灯，把空调调到 26℃；如果门还没锁，只提醒我。”",
+      devices: [
+        {
+          kind: "lock",
+          room: "玄关",
+          name: "玄关门锁",
+          value: "已上锁",
+          detail: "本地状态",
+        },
+        {
+          kind: "light",
+          room: "客厅",
+          name: "客厅主灯",
+          value: "已关闭",
+          detail: "等待检查",
+        },
+        {
+          kind: "climate",
+          room: "客厅",
+          name: "客厅空调",
+          value: "26℃",
+          detail: "节能模式",
+        },
+        {
+          kind: "air",
+          room: "客厅",
+          name: "空气质量",
+          value: "良好",
+          detail: "二氧化碳 612 ppm",
+        },
+        {
+          kind: "presence",
+          room: "客厅",
+          name: "人体传感器",
+          value: "无人 12 分钟",
+          detail: "本地感应",
+        },
+      ],
+      resultLabel: "目标流程",
+      resultTitle: "自动化方案通过检查后才执行",
+      result:
+        "22:00 后 + 无人 10 分钟 → 关灯 / 温控 26℃ / 门未锁则提醒",
+      checks: ["AetherContracts 检查", "AetherEdge 本地执行"],
     },
-    proofLabel: "不可绕过的运行约束",
+    proofLabel: "一个家真正需要的保障",
     proof: [
-      ["智能体生成", "先形成可审查的计划"],
-      ["契约验证", "拒绝无效或越权的变更"],
-      ["边缘裁决", "设备控制服从现场策略"],
-      ["断网继续", "已投运行为保持本地运行"],
+      ["先看方案", "执行前可以查看和确认"],
+      ["权限检查", "无效或越权操作会被拒绝"],
+      ["本地执行", "设备控制服从家中安全规则"],
+      ["离线运行", "已启用的本地自动化可以继续"],
     ],
     why: {
       eyebrow: "为什么选择 AetherIoT",
@@ -148,10 +188,10 @@ export const siteContent = {
     },
     principle: {
       eyebrow: "运行原则",
-      lead: "“智能体负责生成，契约负责验证，",
-      strong: "边缘端决定实际执行的行为。”",
+      lead: "“智能体提出自动化方案，权限与安全规则负责检查，",
+      strong: "家中的边缘主机负责执行。”",
       tagsLabel: "运行原则",
-      tags: ["人的意图", "类型化计划", "确定性执行"],
+      tags: ["生活需求", "可检查的自动化", "家中本地执行"],
     },
     platform: {
       eyebrow: "一个面向智能体的完整体系",
@@ -270,32 +310,72 @@ export const siteContent = {
     docsHome: docsUrl("en"),
     aiNativeUrl: docsUrl("en", "overview/ai-native-platform/"),
     hero: {
-      status: "OPEN SOURCE · AI-NATIVE · BETA",
-      lineOne: "Describe the outcome.",
-      lineTwo: "Agents build behavior.",
+      status: "OPEN SOURCE · AI-NATIVE · DEVELOPER PREVIEW",
+      lineOne: "Stop configuring devices.",
+      lineTwo: "Tell your home what you want.",
       lede:
-        "Describe the outcome and constraints. Agents produce inspectable plans, AetherContracts validates change, and AetherEdge decides what runs under local policy—without requiring the model or cloud to stay online.",
-      action: "See how agents work",
-      note: "BETA FOUNDATION · END-USER AGENT EXPERIENCE IN DEVELOPMENT",
+        "AetherIoT is building this experience: an agent turns your request into a home automation you can inspect and approve, then AetherEdge runs it locally under device capabilities, permissions, and safety rules.",
+      action: "See the vision and today's foundation",
+      note: "AVAILABLE NOW: LOCAL RUNTIME, RULES, ALARMS, AND SAFETY INTERLOCKS · IN DEVELOPMENT: CONVERSATIONAL HOME SETUP",
     },
-    controlLoop: {
-      ariaLabel: "AI-native control loop",
-      label: "AI-NATIVE CONTROL LOOP",
-      intent: "HUMAN INTENT",
-      agentPlane: "AETHER AGENT PLANE",
-      governed: "GOVERNED",
-      plan: "Intent becomes a plan",
-      planeProducts: "AetherCloud · AetherContracts",
-      services: ["DISCOVER", "GENERATE", "VERIFY", "EXPLAIN"],
-      edge: "AETHER EDGE · DETERMINISTIC EXECUTION",
-      offline: "Model offline? Commissioned behavior continues.",
+    homeScene: {
+      ariaLabel: "Example of smart-home devices working together",
+      label: "TARGET EXPERIENCE · NIGHT ENERGY SAVING",
+      localStatus: "CONCEPT DEMO",
+      disclaimer:
+        "Illustrative data—not a statement of current device compatibility. Conversational home setup is still in development.",
+      goalLabel: "IN THE TARGET EXPERIENCE, YOU COULD SAY",
+      goal:
+        "“After 10 p.m., turn off the living-room light when nobody has been there for 10 minutes, set climate to 26°C, and only notify me if the door is unlocked.”",
+      devices: [
+        {
+          kind: "lock",
+          room: "ENTRY",
+          name: "Entry lock",
+          value: "Locked",
+          detail: "Local state",
+        },
+        {
+          kind: "light",
+          room: "LIVING ROOM",
+          name: "Living-room light",
+          value: "Off",
+          detail: "Waiting for checks",
+        },
+        {
+          kind: "climate",
+          room: "LIVING ROOM",
+          name: "Living-room climate",
+          value: "26°C",
+          detail: "Efficiency mode",
+        },
+        {
+          kind: "air",
+          room: "LIVING ROOM",
+          name: "Air quality",
+          value: "Good",
+          detail: "CO₂ 612 ppm",
+        },
+        {
+          kind: "presence",
+          room: "LIVING ROOM",
+          name: "Presence sensor",
+          value: "Empty for 12 min",
+          detail: "Local sensing",
+        },
+      ],
+      resultLabel: "TARGET FLOW",
+      resultTitle: "The automation runs only after its checks pass",
+      result:
+        "After 22:00 + empty for 10 min → lights off / climate 26°C / notify if unlocked",
+      checks: ["AetherContracts checks", "AetherEdge runs locally"],
     },
-    proofLabel: "NON-NEGOTIABLE RUNTIME INVARIANTS",
+    proofLabel: "WHAT A REAL HOME NEEDS",
     proof: [
-      ["GENERATE", "Agents first produce an inspectable plan"],
-      ["VERIFY", "Contracts reject invalid or unauthorized change"],
-      ["DECIDE", "Local policy governs device control"],
-      ["CONTINUE", "Commissioned behavior keeps running locally"],
+      ["REVIEW FIRST", "Inspect and approve before execution"],
+      ["CHECK PERMISSIONS", "Reject invalid or unauthorized actions"],
+      ["RUN LOCALLY", "Device control follows in-home safety rules"],
+      ["RUN OFFLINE", "Approved local automations can continue"],
     ],
     why: {
       eyebrow: "WHY AETHER",
@@ -325,10 +405,10 @@ export const siteContent = {
     },
     principle: {
       eyebrow: "THE OPERATING PRINCIPLE",
-      lead: "“Agents generate. Contracts verify.",
-      strong: " The edge decides what runs.”",
+      lead: "“Agents propose home automations. Permissions and safety rules check them.",
+      strong: " The in-home edge runtime executes them.”",
       tagsLabel: "Operating principles",
-      tags: ["HUMAN INTENT", "TYPED PLANS", "DETERMINISTIC EXECUTION"],
+      tags: ["EVERYDAY NEEDS", "INSPECTABLE AUTOMATIONS", "LOCAL EXECUTION"],
     },
     platform: {
       eyebrow: "ONE AI-NATIVE SYSTEM",

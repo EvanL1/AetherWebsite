@@ -30,15 +30,25 @@ async function htmlFor(path = "/") {
   return response.text();
 }
 
+function heroFor(html) {
+  const hero = html.match(/<section class="hero"[\s\S]*?<\/section>/)?.[0] ?? "";
+  assert.notEqual(hero, "", "hero section must exist");
+  return hero;
+}
+
 test("server-renders Chinese as the default AetherIoT landing page", async () => {
   const html = await htmlFor("/");
 
   assert.match(html, /<html lang="zh-CN"/);
-  assert.match(html, /<title>AetherIoT｜面向物理空间的人工智能原生运行平台<\/title>/);
-  assert.match(html, /描述你想要的结果。/);
-  assert.match(html, /由智能体生成行为。/);
-  assert.match(html, /智能体生成可审查的计划/);
-  assert.match(html, /了解智能体如何工作/);
+  assert.match(
+    html,
+    /<title>AetherIoT｜从逐项配置走向对话式智能家居<\/title>/,
+  );
+  assert.match(html, /不再逐项配置设备。/);
+  assert.match(html, /说出你想要的家。/);
+  assert.match(html, /AetherIoT 正在构建这样的体验/);
+  assert.match(html, /可检查的家庭自动化方案/);
+  assert.match(html, /了解目标体验与当前能力/);
   assert.match(html, /AetherEdge/);
   assert.match(html, /AetherCloud/);
   assert.match(html, /AetherContracts/);
@@ -57,13 +67,14 @@ test("serves the complete English site at /en/", async () => {
   assert.match(html, /<html lang="en"/);
   assert.match(
     html,
-    /<title>AetherIoT — The AI-native runtime for physical spaces<\/title>/,
+    /<title>AetherIoT — From device setup to conversational homes<\/title>/,
   );
-  assert.match(html, /Describe the outcome\./);
-  assert.match(html, /Agents build behavior\./);
-  assert.match(html, /See how agents work/);
-  assert.match(html, /Agents produce inspectable plans/);
-  assert.doesNotMatch(html, /描述你想要的结果|由智能体生成行为/);
+  assert.match(html, /Stop configuring devices\./);
+  assert.match(html, /Tell your home what you want\./);
+  assert.match(html, /AetherIoT is building this experience/);
+  assert.match(html, /home automation you can inspect and approve/);
+  assert.match(html, /See the vision and today&#x27;s foundation/);
+  assert.doesNotMatch(html, /描述你想要的结果|由智能体生成行为|Agents build behavior/);
 });
 
 test("publishes localized canonical, alternate, and Open Graph metadata", async () => {
@@ -91,12 +102,12 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   );
   assert.match(
     chinese,
-    /<meta name="description" content="面向智能体的开源运行平台，把人的意图转化为受治理、可验证，并由边缘端确定执行的现实行为。"/,
+    /<meta name="description" content="AetherIoT 正在构建对话式智能家居：智能体提出可检查的自动化方案，再由 AetherEdge 在家中安全执行。"/,
   );
   assert.match(chinese, /<meta property="og:locale" content="zh_CN"/);
   assert.match(
     chinese,
-    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-zh\.png"/,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-home\.png"/,
   );
   assert.match(
     english,
@@ -104,12 +115,12 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   );
   assert.match(
     english,
-    /<meta name="description" content="The open-source runtime foundation for agents to turn human intent into governed, verifiable physical behavior."\/>/,
+    /<meta name="description" content="AetherIoT is building a conversational smart-home experience where agents propose inspectable automations and AetherEdge runs them safely at home."\/>/,
   );
   assert.match(english, /<meta property="og:locale" content="en_US"/);
   assert.match(
     english,
-    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-home\.png"/,
   );
 });
 
@@ -180,27 +191,24 @@ test("links each language to the matching documentation corpus", async () => {
 });
 
 test("keeps claims aligned with the current beta product boundary", async () => {
-  const chinese = await htmlFor("/");
-  const english = await htmlFor("/en/");
+  const chinese = heroFor(await htmlFor("/"));
+  const english = heroFor(await htmlFor("/en/"));
 
-  assert.match(chinese, /开源 · 人工智能原生 · 测试版/);
-  assert.match(chinese, /边缘端决定实际执行的行为/);
-  assert.match(
-    chinese,
-    /面向最终用户的智能体体验仍在开发中/,
-  );
+  assert.match(chinese, /开源 · 人工智能原生 · 开发者预览/);
+  assert.match(chinese, /当前可用：本地运行、规则、告警与安全联锁/);
+  assert.match(chinese, /开发中：面向家庭用户的对话配置/);
   assert.doesNotMatch(
     chinese,
     /24\/7|全天候|生产就绪|生产级|保证可用|完全自主|无需任何配置/,
   );
 
-  assert.match(english, /OPEN SOURCE · AI-NATIVE · BETA/);
-  assert.match(english, /The edge decides what runs/);
-  assert.match(english, /END-USER AGENT EXPERIENCE IN DEVELOPMENT/);
+  assert.match(english, /OPEN SOURCE · AI-NATIVE · DEVELOPER PREVIEW/);
+  assert.match(english, /AVAILABLE NOW: LOCAL RUNTIME, RULES, ALARMS, AND SAFETY INTERLOCKS/);
+  assert.match(english, /IN DEVELOPMENT: CONVERSATIONAL HOME SETUP/);
   assert.doesNotMatch(english, /24\/7|production.ready|production-grade|guaranteed uptime/i);
 });
 
-test("states runtime invariants instead of presenting arbitrary proof metrics", async () => {
+test("states user-facing safeguards instead of presenting arbitrary proof metrics", async () => {
   const chinese = await htmlFor("/");
   const english = await htmlFor("/en/");
   const chineseProof =
@@ -208,16 +216,67 @@ test("states runtime invariants instead of presenting arbitrary proof metrics", 
   const englishProof =
     english.match(/<section class="proof-strip"[\s\S]*?<\/section>/)?.[0] ?? "";
 
-  for (const value of ["智能体生成", "契约验证", "边缘裁决", "断网继续"]) {
+  for (const value of ["先看方案", "权限检查", "本地执行", "离线运行"]) {
     assert.match(chineseProof, new RegExp(`>${value}<`));
   }
-  assert.match(chinese, /不可绕过的运行约束/);
+  assert.match(chinese, /一个家真正需要的保障/);
   assert.doesNotMatch(chineseProof, />3<|>0<|>1<|>本地</);
 
-  for (const value of ["GENERATE", "VERIFY", "DECIDE", "CONTINUE"]) {
+  for (const value of ["REVIEW FIRST", "CHECK PERMISSIONS", "RUN LOCALLY", "RUN OFFLINE"]) {
     assert.match(englishProof, new RegExp(`>${value}<`));
   }
-  assert.match(english, /NON-NEGOTIABLE RUNTIME INVARIANTS/);
+  assert.match(english, /WHAT A REAL HOME NEEDS/);
+});
+
+test("makes the hero unmistakably about devices working together in a home", async () => {
+  const chineseHero = heroFor(await htmlFor("/"));
+  const englishHero = heroFor(await htmlFor("/en/"));
+
+  assert.doesNotMatch(chineseHero, /智能体生成行为|由智能体生成行为/);
+  assert.doesNotMatch(englishHero, /Agents build behavior/i);
+
+  assert.match(
+    chineseHero,
+    /晚上十点后，客厅无人 10 分钟就关灯，把空调调到 26℃/,
+  );
+  assert.match(
+    englishHero,
+    /After 10 p\.m\., turn off the living-room light when nobody has been there for 10 minutes/,
+  );
+
+  for (const device of ["玄关门锁", "客厅主灯", "客厅空调", "空气质量", "人体传感器"]) {
+    assert.match(chineseHero, new RegExp(device));
+  }
+  for (const device of [
+    "Entry lock",
+    "Living-room light",
+    "Living-room climate",
+    "Air quality",
+    "Presence sensor",
+  ]) {
+    assert.match(englishHero, new RegExp(device));
+  }
+
+  const chineseScene =
+    chineseHero.match(/<section class="home-scene"[\s\S]*?<\/section>/)?.[0] ?? "";
+  const englishScene =
+    englishHero.match(/<section class="home-scene"[\s\S]*?<\/section>/)?.[0] ?? "";
+
+  assert.notEqual(chineseScene, "");
+  assert.notEqual(englishScene, "");
+  assert.equal(chineseScene.match(/class="device-card"/g)?.length, 5);
+  assert.equal(englishScene.match(/class="device-card"/g)?.length, 5);
+  assert.match(chineseScene, /不代表当前设备兼容性/);
+  assert.match(chineseScene, /自动化方案通过检查后才执行/);
+  assert.match(chineseScene, /AetherEdge 本地执行/);
+  assert.match(englishScene, /not a statement of current device compatibility/);
+  assert.match(englishScene, /The automation runs only after its checks pass/);
+  assert.match(englishScene, /AetherEdge runs locally/);
+
+  for (const scene of [chineseScene, englishScene]) {
+    assert.doesNotMatch(scene, /<(?:svg|img|button)\b/);
+    assert.equal(scene.match(/class="device-icon[^"]*" aria-hidden="true"/g)?.length, 5);
+  }
 });
 
 test("keeps both localized pages structurally identical", async () => {
@@ -244,9 +303,9 @@ test("exports static Chinese and English homepages for Cloudflare Workers", asyn
     "utf8",
   );
 
-  assert.match(chinese, /描述你想要的结果/);
+  assert.match(chinese, /不再逐项配置设备/);
   assert.match(chinese, /<html lang="zh-CN"/);
-  assert.match(english, /Describe the outcome/);
+  assert.match(english, /Stop configuring devices/);
   assert.match(english, /<html lang="en"/);
 
   for (const html of [chinese, english]) {
@@ -254,11 +313,11 @@ test("exports static Chinese and English homepages for Cloudflare Workers", asyn
   }
   assert.match(
     chinese,
-    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-zh\.png"/,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-home\.png"/,
   );
   assert.match(
     english,
-    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og\.png"/,
+    /<meta property="og:image" content="https:\/\/www\.aetheriot\.workers\.dev\/og-home\.png"/,
   );
 });
 
@@ -283,16 +342,14 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
   assert.doesNotMatch(exportScript, /aetheriot\.pages\.dev/);
 });
 
-test("ships a correctly sized AetherIoT social card", async () => {
-  for (const filename of ["og.png", "og-zh.png"]) {
-    const image = await readFile(
-      new URL(`../public/${filename}`, import.meta.url),
-    );
+test("ships a correctly sized smart-home social card", async () => {
+  const image = await readFile(
+    new URL("../public/og-home.png", import.meta.url),
+  );
 
-    assert.equal(image.subarray(1, 4).toString("ascii"), "PNG");
-    assert.equal(image.readUInt32BE(16), 1200);
-    assert.equal(image.readUInt32BE(20), 630);
-  }
+  assert.equal(image.subarray(1, 4).toString("ascii"), "PNG");
+  assert.equal(image.readUInt32BE(16), 1200);
+  assert.equal(image.readUInt32BE(20), 630);
 });
 
 test("publishes browser, crawler, sitemap, and agent discovery resources", async () => {
@@ -325,6 +382,8 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
     assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherCloud/);
     assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherContracts/);
   }
+  assert.match(chineseAgents, /智能体提出可检查的自动化方案/);
+  assert.match(englishAgents, /agents propose inspectable automations/i);
 
   const chinese = await htmlFor("/");
   const english = await htmlFor("/en/");
@@ -347,6 +406,7 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
 
   for (const path of [
     "favicon.svg",
+    "og-home.png",
     "robots.txt",
     "sitemap.xml",
     "llms.txt",
@@ -364,7 +424,8 @@ test("documents both locales and the unshipped conversational boundary", async (
 
   assert.match(readme, /根路径 `\/` 提供中文页面/);
   assert.match(readme, /`\/en\/` 提供英文页面/);
-  assert.match(readme, /仍在开发的最终用户对话式智能体体验/);
+  assert.match(readme, /智能体提出可检查的自动化方案/);
+  assert.match(readme, /仍在开发的家庭对话配置体验/);
   assert.doesNotMatch(readme, /AetherIot/);
 });
 
@@ -382,14 +443,22 @@ test("shares the responsive brand frame and explicit light theme", async () => {
   );
   assert.match(css, /circle at 12% 38%/);
   assert.match(css, /overflow-x:\s*clip/);
-  assert.match(css, /\.hero-line\s*{[\s\S]*?white-space:\s*nowrap/);
+  assert.match(css, /\.hero-line\s*{[\s\S]*?text-wrap:\s*balance/);
   assert.match(css, /html\[data-theme="light"\]/);
   assert.match(css, /PingFang SC/);
   assert.match(css, /\.site-controls/);
+  assert.match(
+    css,
+    /\.device-grid\s*{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/,
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*440px\)[\s\S]*?\.device-grid\s*{[^}]*grid-template-columns:\s*1fr/,
+  );
   assert.match(css, /@media \(max-width:\s*720px\)[\s\S]*--page-gutter:\s*20px/);
 });
 
-test("keeps the sticky navigation centered and the hero content-driven", async () => {
+test("keeps the sticky navigation full-bleed and the hero content-driven", async () => {
   const css = await readFile(
     new URL("../app/globals.css", import.meta.url),
     "utf8",
@@ -398,7 +467,9 @@ test("keeps the sticky navigation centered and the hero content-driven", async (
   const hero = css.match(/\.hero\s*{[\s\S]*?\n}/)?.[0] ?? "";
 
   assert.match(navigation, /position:\s*sticky/);
-  assert.match(navigation, /margin-inline:\s*auto/);
+  assert.match(navigation, /width:\s*100%/);
+  assert.match(navigation, /padding-inline:\s*var\(--page-gutter\)/);
+  assert.doesNotMatch(navigation, /margin-inline/);
   assert.doesNotMatch(navigation, /left:\s*50%|translateX/);
 
   assert.match(
