@@ -8,13 +8,13 @@ const routes = [
   {
     path: "/",
     output: "index.html",
-    marker: "描述你想要的结果。",
+    marker: "不再逐项配置设备。",
     language: 'lang="zh-CN"',
   },
   {
     path: "/en/",
     output: "en/index.html",
-    marker: "Describe the outcome.",
+    marker: "Stop configuring devices.",
     language: 'lang="en"',
   },
 ];

@@ -1,6 +1,6 @@
 # AetherIoT
 
-> AetherIoT is the open-source, AI-native runtime platform for physical spaces. Agents produce inspectable plans, shared contracts validate change, and the edge decides what runs under local policy.
+> AetherIoT is the open-source, AI-native runtime platform for physical spaces. People describe everyday needs, agents propose inspectable automations, shared contracts validate change, and the edge decides what runs under local policy.
 
 ## Agent entry points
 
@@ -17,7 +17,7 @@
 
 ## Non-negotiable runtime invariants
 
-- Agents produce plans; they do not directly control devices.
+- Agents propose automations; they do not directly control devices.
 - Shared contracts and policy validate change before execution.
 - AetherEdge has final authority over physical device control.
 - Commissioned edge behavior continues when the cloud, network, or model is unavailable.
