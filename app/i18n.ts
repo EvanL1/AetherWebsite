@@ -45,6 +45,10 @@ export function createMetadata(locale: Locale): Metadata {
       canonical,
       languages: sharedAlternates,
     },
+    icons: {
+      icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+      shortcut: "/favicon.svg",
+    },
     openGraph: {
       title,
       description: socialDescription,
@@ -57,7 +61,7 @@ export function createMetadata(locale: Locale): Metadata {
           url: socialImage,
           width: 1200,
           height: 630,
-      alt: isChinese
+          alt: isChinese
             ? "AetherIoT——面向物理空间的人工智能原生运行平台。"
             : "AetherIoT — The AI-native runtime for physical spaces.",
         },
@@ -93,8 +97,8 @@ export const siteContent = {
       lineOne: "描述你想要的结果。",
       lineTwo: "由智能体生成行为。",
       lede:
-        "AetherIoT 是面向物理空间的开源、人工智能原生运行平台，为智能体发现物理能力、把人的意图转化为受治理的变更，以及投运可在边缘端确定执行的行为提供基础。",
-      action: "了解系统架构",
+        "说出目标和约束。智能体生成可审查的计划，AetherContracts 验证变更，AetherEdge 按现场策略确定执行；已经投运的行为不依赖模型或云端持续在线。",
+      action: "了解智能体如何工作",
       note: "测试版基础能力已经可用 · 面向最终用户的智能体体验仍在开发中",
     },
     controlLoop: {
@@ -109,12 +113,12 @@ export const siteContent = {
       edge: "AetherEdge · 确定性执行",
       offline: "即使模型离线，已经启用的行为也会继续运行。",
     },
-    proofLabel: "产品架构事实",
+    proofLabel: "不可绕过的运行约束",
     proof: [
-      ["3", "职责清晰的产品边界"],
-      ["0", "模型直接控制设备的路径"],
-      ["1", "统一的类型化应用边界"],
-      ["本地", "已启用行为在边缘端执行"],
+      ["智能体生成", "先形成可审查的计划"],
+      ["契约验证", "拒绝无效或越权的变更"],
+      ["边缘裁决", "设备控制服从现场策略"],
+      ["断网继续", "已投运行为保持本地运行"],
     ],
     why: {
       eyebrow: "为什么选择 AetherIoT",
@@ -270,8 +274,8 @@ export const siteContent = {
       lineOne: "Describe the outcome.",
       lineTwo: "Agents build behavior.",
       lede:
-        "AetherIoT is the open-source, AI-native runtime foundation for agents to discover physical capabilities, turn human intent into governed change, and commission deterministic edge behavior.",
-      action: "Explore the architecture",
+        "Describe the outcome and constraints. Agents produce inspectable plans, AetherContracts validates change, and AetherEdge decides what runs under local policy—without requiring the model or cloud to stay online.",
+      action: "See how agents work",
       note: "BETA FOUNDATION · END-USER AGENT EXPERIENCE IN DEVELOPMENT",
     },
     controlLoop: {
@@ -286,12 +290,12 @@ export const siteContent = {
       edge: "AETHER EDGE · DETERMINISTIC EXECUTION",
       offline: "Model offline? Commissioned behavior continues.",
     },
-    proofLabel: "Product proof points",
+    proofLabel: "NON-NEGOTIABLE RUNTIME INVARIANTS",
     proof: [
-      ["3", "explicit product authorities"],
-      ["0", "direct model-to-device paths"],
-      ["1", "typed application boundary"],
-      ["LOCAL", "commissioned behavior runs at the edge"],
+      ["GENERATE", "Agents first produce an inspectable plan"],
+      ["VERIFY", "Contracts reject invalid or unauthorized change"],
+      ["DECIDE", "Local policy governs device control"],
+      ["CONTINUE", "Commissioned behavior keeps running locally"],
     ],
     why: {
       eyebrow: "WHY AETHER",

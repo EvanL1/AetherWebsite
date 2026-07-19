@@ -1,0 +1,23 @@
+# AetherIoT
+
+> AetherIoT 是面向物理空间的开源人工智能原生运行平台。智能体生成可审查的计划，公共契约验证变更，边缘端按照现场策略确定执行。
+
+## 智能体入口
+
+- [统一中文文档索引](https://docs.aetheriot.workers.dev/llms.txt)
+- [统一英文文档索引](https://docs.aetheriot.workers.dev/en/llms.txt)
+- [产品状态与路线图](https://docs.aetheriot.workers.dev/roadmap/status/)
+- [版本兼容性](https://docs.aetheriot.workers.dev/compatibility/version-matrix/)
+
+## 产品代码库
+
+- [AetherEdge](https://github.com/EvanL1/AetherEdge)：掌握实时状态，并确定性地执行已经投运的行为。
+- [AetherCloud](https://github.com/EvanL1/AetherCloud)：承载智能体上下文、期望状态、受治理任务和多云协同。
+- [AetherContracts](https://github.com/EvanL1/AetherContracts)：定义类型化能力、公共协议、数据结构和一致性测试。
+
+## 不可绕过的运行约束
+
+- 智能体生成计划，不直接控制设备。
+- 公共契约和策略在执行前验证变更。
+- AetherEdge 对物理设备控制拥有最终裁决权。
+- 云端、网络或模型不可用时，已经投运的边缘行为继续运行。

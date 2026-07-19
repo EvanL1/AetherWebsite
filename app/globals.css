@@ -105,15 +105,14 @@ footer {
   position: sticky;
   z-index: 20;
   top: 0;
-  left: 50%;
   display: grid;
   min-height: 84px;
+  margin-inline: auto;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(24px, 3.5vw, 72px);
   border-bottom: 1px solid var(--border);
   background: var(--bg-nav);
-  transform: translateX(-50%);
   backdrop-filter: blur(18px);
 }
 
@@ -242,7 +241,7 @@ footer a:hover,
 .hero {
   position: relative;
   display: grid;
-  min-height: 790px;
+  min-height: clamp(680px, calc(100svh - 84px), 790px);
   grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
   align-items: center;
   gap: clamp(48px, 7vw, 108px);
@@ -317,7 +316,7 @@ html[data-theme="light"] .hero {
   max-width: none;
   margin: 0;
   color: var(--text-strong);
-  font-size: clamp(46px, 5vw, 94px);
+  font-size: clamp(46px, 4.6vw, 84px);
   font-weight: 565;
   letter-spacing: -0.072em;
   line-height: 0.96;
@@ -1157,6 +1156,7 @@ footer > div {
   }
 
   .hero {
+    min-height: auto;
     grid-template-columns: 1fr;
     padding-top: 58px;
   }
@@ -1166,7 +1166,7 @@ footer > div {
   }
 
   .hero h1 {
-    font-size: clamp(52px, 8.5vw, 84px);
+    font-size: clamp(46px, 7.2vw, 72px);
   }
 
   .edge-visual {

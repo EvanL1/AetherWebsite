@@ -33,9 +33,20 @@ export function SiteRoot({
   children: ReactNode;
   lang: "zh-CN" | "en";
 }) {
+  const agentIndexHref = lang === "en" ? "/en/llms.txt" : "/llms.txt";
+  const agentIndexTitle =
+    lang === "en" ? "AetherIoT agent index" : "AetherIoT 智能体索引";
+
   return (
     <html lang={lang} data-theme="dark" data-theme-mode="auto" suppressHydrationWarning>
       <head>
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href={agentIndexHref}
+          title={agentIndexTitle}
+        />
         <script dangerouslySetInnerHTML={{ __html: themeInitializer }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
