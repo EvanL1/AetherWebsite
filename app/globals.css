@@ -332,6 +332,10 @@ html[data-theme="light"] .hero {
   -webkit-text-stroke: 1.2px color-mix(in srgb, var(--text-strong) 72%, transparent);
 }
 
+html[lang="en"] .hero-line-outline {
+  font-size: 0.82em;
+}
+
 .hero-lede {
   max-width: 610px;
   margin: 32px 0 0;
@@ -1210,6 +1214,13 @@ footer > div {
   display: flex;
   justify-content: flex-end;
   gap: 24px;
+}
+
+@media (min-width: 721px) {
+  .hero-line {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
 }
 
 @media (max-width: 1024px) {

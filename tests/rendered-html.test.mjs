@@ -444,6 +444,14 @@ test("shares the responsive brand frame and explicit light theme", async () => {
   assert.match(css, /circle at 12% 38%/);
   assert.match(css, /overflow-x:\s*clip/);
   assert.match(css, /\.hero-line\s*{[\s\S]*?text-wrap:\s*balance/);
+  assert.match(
+    css,
+    /html\[lang="en"\] \.hero-line-outline\s*{[^}]*font-size:\s*0\.82em/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width:\s*721px\)[\s\S]*?\.hero-line\s*{[^}]*white-space:\s*nowrap[^}]*text-wrap:\s*nowrap/,
+  );
   assert.match(css, /html\[data-theme="light"\]/);
   assert.match(css, /PingFang SC/);
   assert.match(css, /\.site-controls/);
