@@ -32,7 +32,7 @@ npm run lint
 
 ## Cloudflare Workers 部署
 
-工作进程名称为 `www`，因此 Cloudflare 会分配免费的生产地址 `https://www.aetheriot.workers.dev`。
+工作进程名称为 `www`，因此 Cloudflare 会分配免费的生产地址 `https://aetheriot.dev`。
 
 ```bash
 npm run deploy:cloudflare

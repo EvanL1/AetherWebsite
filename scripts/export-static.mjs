@@ -23,7 +23,7 @@ const clientDirectory = new URL("../dist/client/", import.meta.url);
 
 for (const route of routes) {
   const response = await worker.fetch(
-    new Request(new URL(route.path, "https://www.aetheriot.workers.dev"), {
+    new Request(new URL(route.path, "https://aetheriot.dev"), {
       headers: { accept: "text/html" },
     }),
     {
