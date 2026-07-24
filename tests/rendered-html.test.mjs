@@ -173,11 +173,11 @@ test("links each language to the matching documentation corpus", async () => {
   ]) {
     assert.match(
       chinese,
-      new RegExp(`https://docs\\.aetheriot\\.dev/${path}/`),
+      new RegExp(`https://docs\\.aetheriot\\.dev/zh/${path}/`),
     );
     assert.match(
       english,
-      new RegExp(`https://docs\\.aetheriot\\.dev/en/${path}/`),
+      new RegExp(`https://docs\\.aetheriot\\.dev/${path}/`),
     );
   }
 
@@ -185,6 +185,7 @@ test("links each language to the matching documentation corpus", async () => {
     chinese,
     /https:\/\/docs\.aetheriot\.dev\/en\//,
   );
+  assert.doesNotMatch(english, /https:\/\/docs\.aetheriot\.dev\/(en|zh)\//);
   assert.match(chinese, />边缘、契约与云端联动指南</);
   assert.match(english, />Edge–Contracts–Cloud integration guide</);
   assert.doesNotMatch(chinese, /tutorials\/edge-contracts-cloud|>教程</);

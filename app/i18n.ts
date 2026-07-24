@@ -13,7 +13,7 @@ export const repositoryUrls = {
 } as const;
 
 function docsUrl(locale: Locale, path = "") {
-  const languagePrefix = locale === "en" ? "/en" : "";
+  const languagePrefix = locale === "en" ? "" : "/zh";
   return `${docsBaseUrl}${languagePrefix}/${path}`;
 }
 
