@@ -4,10 +4,10 @@
 
 ## Agent entry points
 
-- [Unified English documentation index](https://docs.aetheriot.workers.dev/en/llms.txt)
-- [Unified Chinese documentation index](https://docs.aetheriot.workers.dev/llms.txt)
-- [Product status and roadmap](https://docs.aetheriot.workers.dev/en/roadmap/status/)
-- [Version compatibility](https://docs.aetheriot.workers.dev/en/compatibility/version-matrix/)
+- [Unified English documentation index](https://docs.aetheriot.dev/en/llms.txt)
+- [Unified Chinese documentation index](https://docs.aetheriot.dev/llms.txt)
+- [Product status and roadmap](https://docs.aetheriot.dev/en/roadmap/status/)
+- [Version compatibility](https://docs.aetheriot.dev/en/compatibility/version-matrix/)
 
 ## Product repositories
 

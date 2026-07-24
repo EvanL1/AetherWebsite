@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 export type Locale = "zh-CN" | "en";
 
-const websiteUrl = "https://www.aetheriot.workers.dev";
-const docsBaseUrl = "https://docs.aetheriot.workers.dev";
+const websiteUrl = "https://aetheriot.dev";
+const docsBaseUrl = "https://docs.aetheriot.dev";
 
 export const repositoryUrls = {
   edge: "https://github.com/EvanL1/AetherEdge",
