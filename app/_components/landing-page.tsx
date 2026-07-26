@@ -61,7 +61,7 @@ export function LandingPage({ content }: { content: SiteContent }) {
           </h1>
           <p className="hero-lede">{content.hero.lede}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href={content.aiNativeUrl}>
+            <a className="button button-primary" href={content.userJourneysUrl}>
               {content.hero.action} <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -212,7 +212,7 @@ export function LandingPage({ content }: { content: SiteContent }) {
           <p className="eyebrow">{content.quickstart.eyebrow}</p>
           <h2>{content.quickstart.title}</h2>
           <p>{content.quickstart.body}</p>
-          <a href={content.docsHome}>
+          <a href={content.userJourneysUrl}>
             {content.quickstart.action} <span aria-hidden="true">→</span>
           </a>
         </div>
@@ -225,17 +225,22 @@ export function LandingPage({ content }: { content: SiteContent }) {
           </div>
           <pre>
             <code>
-              <span className="prompt">$</span> git clone{" "}
+              <span className="prompt">$</span> sha256sum -c{" "}
               <span className="code-accent">
-                github.com/EvanL1/AetherEdge
+                AetherEdge-ARCH-VERSION.run.sha256
               </span>
               {"\n"}
-              <span className="prompt">$</span> cd AetherEdge{"\n"}
-              <span className="prompt">$</span> cargo run -p{" "}
+              <span className="prompt">$</span> chmod +x{" "}
               <span className="code-accent">
-                aether-example-minimal-gateway
+                AetherEdge-ARCH-VERSION.run
               </span>
-              {"\n\n"}
+              {"\n"}
+              <span className="prompt">$</span> sudo ./
+              <span className="code-accent">
+                AetherEdge-ARCH-VERSION.run
+              </span>
+              {"\n"}
+              <span className="prompt">$</span> aether doctor{"\n\n"}
               <span className="code-muted">{content.quickstart.comment}</span>
             </code>
           </pre>

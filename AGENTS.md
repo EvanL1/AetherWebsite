@@ -13,9 +13,13 @@ an internal repository.
 `tests/rendered-html.test.mjs` is the authority, not this prose. It fails the
 build when a claim drifts, so read it before editing any page copy.
 
+- AetherIoT and its core products are industry-neutral. A home, building, or
+  energy site may appear only as a clearly labeled use case; it must not become
+  the identity of the umbrella platform or the AetherEdge kernel.
 - The product is a developer preview. Both languages must keep the split
-  between what is available now (local runtime, rules, alarms, safety
-  interlocks) and what is in development (conversational home setup).
+  between what is available now (safe-empty local runtime, acquisition, rules,
+  alarms, and safety interlocks) and what is in development (the complete
+  conversation-first intent and proposal experience).
 - Never claim 24/7 operation, production readiness, guaranteed uptime, full
   autonomy, or zero configuration. The tests reject those phrases in both
   languages.
@@ -29,8 +33,12 @@ build when a claim drifts, so read it before editing any page copy.
 - `/` serves Chinese from `app/(zh)`; `/en/` serves English from `app/(en)/en`.
 - Both routes must stay structurally identical and carry the same product
   boundaries, navigation, and links. A test asserts this directly.
-- All three product repositories stay explicit in the primary navigation, and
-  each language links to its matching documentation corpus.
+- All three core product repositories stay explicit in the primary navigation,
+  AetherEMS stays explicit as the downstream energy solution, and each language
+  links to its matching documentation corpus.
+- The current-user entry point links to the safe commissioning journey and uses
+  the signed Release installer path rather than presenting a source checkout as
+  the normal operator Quickstart.
 - Localized canonical, alternate, and Open Graph metadata must stay in sync.
 
 ## Public Discovery

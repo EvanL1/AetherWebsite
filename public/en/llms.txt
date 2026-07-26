@@ -1,11 +1,12 @@
 # AetherIoT
 
-> AetherIoT is the open-source, AI-native runtime platform for physical spaces. People describe everyday needs, agents propose inspectable automations, shared contracts validate change, and the edge decides what runs under local policy.
+> AetherIoT is the open-source, industry-neutral, AI-native runtime platform for physical spaces. Operators begin with a safe-empty edge, prove observation, and explicitly commission governed behavior.
 
 ## Agent entry points
 
 - [Unified English documentation index](https://docs.aetheriot.dev/llms.txt)
-- [Unified Chinese documentation index](https://docs.aetheriot.dev/llms.txt)
+- [Unified Chinese documentation index](https://docs.aetheriot.dev/zh/llms.txt)
+- [Safe commissioning user journeys](https://docs.aetheriot.dev/overview/user-journeys/)
 - [Product status and roadmap](https://docs.aetheriot.dev/roadmap/status/)
 - [Version compatibility](https://docs.aetheriot.dev/compatibility/version-matrix/)
 
@@ -14,6 +15,7 @@
 - [AetherEdge](https://github.com/EvanL1/AetherEdge): owns live state and deterministically executes commissioned behavior.
 - [AetherCloud](https://github.com/EvanL1/AetherCloud): carries agent context, desired state, governed jobs, and multi-cloud coordination.
 - [AetherContracts](https://github.com/EvanL1/AetherContracts): defines typed capabilities, shared protocols, schemas, and conformance tests.
+- [AetherEMS](https://github.com/EvanL1/AetherEMS): supplies the downstream energy-management Pack, composition, optional Console, and processors.
 
 ## Non-negotiable runtime invariants
 

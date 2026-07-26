@@ -26,14 +26,14 @@ const sharedAlternates = {
 export function createMetadata(locale: Locale): Metadata {
   const isChinese = locale === "zh-CN";
   const title = isChinese
-    ? "AetherIoT｜从逐项配置走向对话式智能家居"
-    : "AetherIoT — From device setup to conversational homes";
+    ? "AetherIoT｜面向物理空间的 AI 原生运行平台"
+    : "AetherIoT — AI-native runtime platform for physical spaces";
   const description = isChinese
-    ? "AetherIoT 正在构建对话式智能家居：智能体提出可检查的自动化方案，再由 AetherEdge 在家中安全执行。"
-    : "AetherIoT is building a conversational smart-home experience where agents propose inspectable automations and AetherEdge runs them safely at home.";
+    ? "AetherIoT 是行业中立的 AI 原生 IoT 平台：从安全空边缘运行时开始，先证明观测链路，再显式投运受治理的确定性行为。"
+    : "AetherIoT is an industry-neutral, AI-native IoT platform: start with a safe-empty edge runtime, prove observation, then commission governed deterministic behavior.";
   const socialDescription = isChinese
-    ? "正在构建不需要逐项配置设备的智能家居，让生活需求变成安全的本地自动化。"
-    : "Building a smart-home experience that turns everyday requests into safe local automations.";
+    ? "连接现场设备，验证真实状态，再通过受治理的边缘运行时显式投运行为。"
+    : "Connect field devices, verify real state, then explicitly commission behavior through a governed edge runtime.";
   const canonical = isChinese ? "/" : "/en/";
   const socialImage = "/og-home.png";
 
@@ -62,8 +62,8 @@ export function createMetadata(locale: Locale): Metadata {
           width: 1200,
           height: 630,
           alt: isChinese
-            ? "AetherIoT 智能家居目标体验示意。"
-            : "AetherIoT smart-home concept.",
+            ? "AetherIoT 行业中立物理空间运行平台示意。"
+            : "AetherIoT industry-neutral physical-space runtime concept.",
         },
       ],
     },
@@ -71,8 +71,8 @@ export function createMetadata(locale: Locale): Metadata {
       card: "summary_large_image",
       title,
       description: isChinese
-        ? "正在构建从生活需求到安全本地自动化的完整路径。"
-        : "Building a path from everyday needs to safe local automations.",
+        ? "从安全空边缘运行时开始，先验证状态，再显式投运行为。"
+        : "Start with a safe-empty edge runtime, verify state, then explicitly commission behavior.",
       images: [socialImage],
     },
   };
@@ -92,57 +92,58 @@ export const siteContent = {
     docsLabel: "文档",
     docsHome: docsUrl("zh-CN"),
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
+    userJourneysUrl: docsUrl("zh-CN", "overview/user-journeys/"),
     hero: {
       status: "开源 · AI 原生 · 开发者预览",
-      lineOne: "不再逐项配置设备。",
-      lineTwo: "说出你想要的家。",
+      lineOne: "从安全空状态开始。",
+      lineTwo: "受治理地运行物理空间。",
       lede:
-        "AetherIoT 正在构建这样的体验：智能体把你的要求变成一份可检查的家庭自动化方案；确认后，由家中的 AetherEdge 按设备能力、权限和安全规则在本地执行。",
-      action: "了解目标体验与当前能力",
-      note: "当前可用：本地运行、规则、告警与安全联锁 · 开发中：面向家庭用户的对话配置",
+        "AetherIoT 面向设备厂商、系统集成商、解决方案开发者和边缘运维人员：先连接现场设备并证明只读数据链路，再通过 AetherEdge 按能力、权限和安全规则显式投运确定性行为。",
+      action: "选择产品与安全起点",
+      note: "当前可用：安全空本地运行、采集、规则、告警与安全联锁 · 开发中：完整对话式意图与方案体验",
     },
     homeScene: {
-      ariaLabel: "智能家居设备协作示例",
-      label: "目标体验示例 · 夜间节能",
+      ariaLabel: "物理空间设备协作示例",
+      label: "目标用例示意 · 建筑夜间节能",
       localStatus: "概念演示",
       disclaimer:
-        "示意数据，不代表当前设备兼容性；自然语言家庭配置仍在开发。",
-      goalLabel: "目标体验中，你可以这样说",
+        "示意数据，不代表当前设备兼容性；自然语言方案生成仍在开发。",
+      goalLabel: "目标体验中，操作员可以这样描述",
       goal:
-        "“晚上十点后，客厅无人 10 分钟就关灯，把空调调到 26℃；如果门还没锁，只提醒我。”",
+        "“晚上十点后，大厅无人 10 分钟就关闭照明，把空调调到 26℃；如果入口未锁定，只发送告警。”",
       devices: [
         {
           kind: "lock",
-          room: "玄关",
-          name: "玄关门锁",
-          value: "已上锁",
+          room: "入口",
+          name: "入口门禁",
+          value: "已锁定",
           detail: "本地状态",
         },
         {
           kind: "light",
-          room: "客厅",
-          name: "客厅主灯",
+          room: "大厅",
+          name: "大厅照明",
           value: "已关闭",
           detail: "等待检查",
         },
         {
           kind: "climate",
-          room: "客厅",
-          name: "客厅空调",
+          room: "大厅",
+          name: "大厅空调",
           value: "26℃",
           detail: "节能模式",
         },
         {
           kind: "air",
-          room: "客厅",
+          room: "大厅",
           name: "空气质量",
           value: "良好",
           detail: "二氧化碳 612 ppm",
         },
         {
           kind: "presence",
-          room: "客厅",
-          name: "人体传感器",
+          room: "大厅",
+          name: "占用传感器",
           value: "无人 12 分钟",
           detail: "本地感应",
         },
@@ -150,27 +151,27 @@ export const siteContent = {
       resultLabel: "目标流程",
       resultTitle: "自动化方案通过检查后才执行",
       result:
-        "22:00 后 + 无人 10 分钟 → 关灯 / 温控 26℃ / 门未锁则提醒",
+        "22:00 后 + 无人 10 分钟 → 关闭照明 / 温控 26℃ / 入口未锁则告警",
       checks: ["AetherContracts 检查", "AetherEdge 本地执行"],
     },
-    proofLabel: "一个家真正需要的保障",
+    proofLabel: "物理系统真正需要的保障",
     proof: [
       ["先看方案", "执行前可以查看和确认"],
       ["权限检查", "无效或越权操作会被拒绝"],
-      ["本地执行", "设备控制服从家中安全规则"],
-      ["离线运行", "已启用的本地自动化可以继续"],
+      ["本地执行", "设备控制服从现场安全规则"],
+      ["离线运行", "已投运的本地自动化可以继续"],
     ],
     why: {
       eyebrow: "为什么选择 AetherIoT",
-      title: "别再逐项配置设备，直接描述想要的结果。",
+      title: "不要让应用直连设备，从受治理的结果开始。",
       body:
-        "传统自动化要求用户亲自把日常需求拆成实体、触发条件、判断条件和执行动作。AetherIoT 正在构建受治理的运行基础，让智能体安全地完成这项工作。",
+        "传统 IoT 系统让每个应用分别处理协议、状态和控制。AetherIoT 把实时状态、类型化能力、权限、确认和审计收敛到清晰边界，让解决方案可以安全组合。",
       capabilities: [
         {
           index: "01 · 产品方向",
-          title: "从人的意图出发",
+          title: "从现场目标出发",
           body:
-            "我们的产品方向，是用对话取代繁琐的配置页面：用户只需描述目标、约束和持续时间，不必手工编排每台设备。",
+            "产品方向是让操作员描述目标、约束和持续时间，由智能体提出可检查方案；设备配置和投运仍然经过显式验证。",
         },
         {
           index: "02 · 架构基础",
@@ -182,16 +183,16 @@ export const siteContent = {
           index: "03 · 已经可用",
           title: "不依赖模型持续运行",
           body:
-            "AetherEdge 在本地执行已经启用的数据采集、规则、告警、历史记录和安全联锁；即使智能体、云端或网络不可用，现场行为仍可继续。",
+            "AetherEdge 在本地执行已经投运的数据采集、规则、告警、历史记录和安全联锁；即使智能体、云端或网络不可用，现场行为仍可继续。",
         },
       ],
     },
     principle: {
       eyebrow: "运行原则",
-      lead: "“智能体提出自动化方案，权限与安全规则负责检查，",
-      strong: "家中的边缘主机负责执行。”",
+      lead: "“智能体提出现场变更方案，权限与安全规则负责检查，",
+      strong: "边缘主机负责最终执行。”",
       tagsLabel: "运行原则",
-      tags: ["生活需求", "可检查的自动化", "家中本地执行"],
+      tags: ["现场目标", "可检查的变更", "边缘本地执行"],
     },
     platform: {
       eyebrow: "一个面向智能体的完整体系",
@@ -203,7 +204,7 @@ export const siteContent = {
           eyebrow: "确定性边缘层",
           title: "AetherEdge",
           copy:
-            "掌握实时状态的 Linux 边缘运行时；无需把大语言模型放进实时控制闭环，也能执行已经启用的行为。",
+            "掌握实时状态的 Linux 边缘运行时；无需把大语言模型放进实时控制闭环，也能执行已经投运的行为。",
           href: repositoryUrls.edge,
           cta: "查看边缘运行时",
         },
@@ -240,9 +241,9 @@ export const siteContent = {
           href: docsUrl("zh-CN", "overview/ai-native-platform/"),
         },
         {
-          title: "平台总览",
-          copy: "了解产品边界、权责划分、部署方式和用户旅程。",
-          href: docsUrl("zh-CN", "overview/platform/"),
+          title: "用户旅程",
+          copy: "选择负责目标的产品，并从安全空运行时开始显式投运。",
+          href: docsUrl("zh-CN", "overview/user-journeys/"),
         },
         {
           title: "AetherEdge",
@@ -278,12 +279,12 @@ export const siteContent = {
     },
     quickstart: {
       eyebrow: "当前可用的基础能力",
-      title: "不要让智能体靠猜，把真实能力交给它。",
+      title: "从签名 Release 和安全空运行时开始。",
       body:
-        "从默认无设备、无连接的安全边缘运行时开始。让智能体在提出任何变更之前，先读取类型化能力和文档。",
-      action: "阅读文档",
-      terminalLabel: "快速开始",
-      comment: "# 本地组合 · 无消息代理 · 无云端 · 无设备",
+        "验证安装包，确认六项服务、SQLite 和权威 SHM 健康，再连接一个默认禁用的 Channel。创建配置不会静默启用硬件。",
+      action: "按安全投运旅程开始",
+      terminalLabel: "操作员起点",
+      comment: "# 签名 Release · 安全空状态 · 未启用设备",
     },
     closing: {
       eyebrow: "交互界面将成为一场对话",
@@ -309,57 +310,58 @@ export const siteContent = {
     docsLabel: "Docs",
     docsHome: docsUrl("en"),
     aiNativeUrl: docsUrl("en", "overview/ai-native-platform/"),
+    userJourneysUrl: docsUrl("en", "overview/user-journeys/"),
     hero: {
       status: "OPEN SOURCE · AI-NATIVE · DEVELOPER PREVIEW",
-      lineOne: "Stop configuring devices.",
-      lineTwo: "Tell your home what you want.",
+      lineOne: "Start from a safe-empty edge.",
+      lineTwo: "Govern behavior across physical spaces.",
       lede:
-        "AetherIoT is building this experience: an agent turns your request into a home automation you can inspect and approve, then AetherEdge runs it locally under device capabilities, permissions, and safety rules.",
-      action: "See the vision and today's foundation",
-      note: "AVAILABLE NOW: LOCAL RUNTIME, RULES, ALARMS, AND SAFETY INTERLOCKS · IN DEVELOPMENT: CONVERSATIONAL HOME SETUP",
+        "AetherIoT serves device makers, system integrators, solution builders, and edge operators: connect field devices and prove the read-only data path, then explicitly commission deterministic behavior through AetherEdge under capabilities, permissions, and safety rules.",
+      action: "Choose your product and safe starting point",
+      note: "AVAILABLE NOW: SAFE-EMPTY LOCAL RUNTIME, ACQUISITION, RULES, ALARMS, AND SAFETY INTERLOCKS · IN DEVELOPMENT: COMPLETE CONVERSATIONAL INTENT AND PROPOSAL EXPERIENCE",
     },
     homeScene: {
-      ariaLabel: "Example of smart-home devices working together",
-      label: "TARGET EXPERIENCE · NIGHT ENERGY SAVING",
+      ariaLabel: "Example of devices working together in a physical space",
+      label: "TARGET USE CASE · BUILDING NIGHT EFFICIENCY",
       localStatus: "CONCEPT DEMO",
       disclaimer:
-        "Illustrative data—not a statement of current device compatibility. Conversational home setup is still in development.",
-      goalLabel: "IN THE TARGET EXPERIENCE, YOU COULD SAY",
+        "Illustrative data—not a statement of current device compatibility. Natural-language proposal generation is still in development.",
+      goalLabel: "IN THE TARGET EXPERIENCE, AN OPERATOR COULD SAY",
       goal:
-        "“After 10 p.m., turn off the living-room light when nobody has been there for 10 minutes, set climate to 26°C, and only notify me if the door is unlocked.”",
+        "“After 10 p.m., turn off the lobby lights when it has been unoccupied for 10 minutes, set climate to 26°C, and only raise an alert if the entrance is unlocked.”",
       devices: [
         {
           kind: "lock",
-          room: "ENTRY",
-          name: "Entry lock",
-          value: "Locked",
+          room: "ENTRANCE",
+          name: "Entrance access",
+          value: "Secured",
           detail: "Local state",
         },
         {
           kind: "light",
-          room: "LIVING ROOM",
-          name: "Living-room light",
+          room: "LOBBY",
+          name: "Lobby lighting",
           value: "Off",
           detail: "Waiting for checks",
         },
         {
           kind: "climate",
-          room: "LIVING ROOM",
-          name: "Living-room climate",
+          room: "LOBBY",
+          name: "Lobby climate",
           value: "26°C",
           detail: "Efficiency mode",
         },
         {
           kind: "air",
-          room: "LIVING ROOM",
+          room: "LOBBY",
           name: "Air quality",
           value: "Good",
           detail: "CO₂ 612 ppm",
         },
         {
           kind: "presence",
-          room: "LIVING ROOM",
-          name: "Presence sensor",
+          room: "LOBBY",
+          name: "Occupancy sensor",
           value: "Empty for 12 min",
           detail: "Local sensing",
         },
@@ -367,27 +369,27 @@ export const siteContent = {
       resultLabel: "TARGET FLOW",
       resultTitle: "The automation runs only after its checks pass",
       result:
-        "After 22:00 + empty for 10 min → lights off / climate 26°C / notify if unlocked",
+        "After 22:00 + unoccupied for 10 min → lighting off / climate 26°C / alert if entrance unlocked",
       checks: ["AetherContracts checks", "AetherEdge runs locally"],
     },
-    proofLabel: "WHAT A REAL HOME NEEDS",
+    proofLabel: "WHAT A PHYSICAL SYSTEM NEEDS",
     proof: [
       ["REVIEW FIRST", "Inspect and approve before execution"],
       ["CHECK PERMISSIONS", "Reject invalid or unauthorized actions"],
-      ["RUN LOCALLY", "Device control follows in-home safety rules"],
-      ["RUN OFFLINE", "Approved local automations can continue"],
+      ["RUN LOCALLY", "Device control follows site safety rules"],
+      ["RUN OFFLINE", "Commissioned local automations can continue"],
     ],
     why: {
       eyebrow: "WHY AETHER",
-      title: "Stop configuring devices. Start describing outcomes.",
+      title: "Stop wiring applications directly to devices. Start with governed outcomes.",
       body:
-        "Traditional automation asks people to translate life into entities, triggers, conditions, and actions. Aether is building the governed runtime foundation for agents to do that work safely.",
+        "Traditional IoT systems make every application handle protocols, state, and control separately. AetherIoT brings live state, typed capabilities, permissions, confirmation, and audit behind clear boundaries so solutions compose safely.",
       capabilities: [
         {
           index: "01 · DIRECTION",
-          title: "Start with human intent",
+          title: "Start with site outcomes",
           body:
-            "The product direction replaces configuration screens with conversation: describe the outcome, constraints, and duration instead of programming devices by hand.",
+            "The product direction lets operators describe outcomes, constraints, and duration while agents propose inspectable plans; device configuration and commissioning remain explicit.",
         },
         {
           index: "02 · FOUNDATION",
@@ -399,16 +401,16 @@ export const siteContent = {
           index: "03 · AVAILABLE",
           title: "Execute without the model",
           body:
-            "AetherEdge runs commissioned acquisition, rules, alarms, history, and safety locally, even when the agent, cloud, or internet disappears.",
+            "AetherEdge runs commissioned acquisition, rules, alarms, history, and safety locally, even when the agent, cloud, or network disappears.",
         },
       ],
     },
     principle: {
       eyebrow: "THE OPERATING PRINCIPLE",
-      lead: "“Agents propose home automations. Permissions and safety rules check them.",
-      strong: " The in-home edge runtime executes them.”",
+      lead: "“Agents propose site changes. Permissions and safety rules check them.",
+      strong: " The edge runtime makes the final execution decision.”",
       tagsLabel: "Operating principles",
-      tags: ["EVERYDAY NEEDS", "INSPECTABLE AUTOMATIONS", "LOCAL EXECUTION"],
+      tags: ["SITE OUTCOMES", "INSPECTABLE CHANGE", "EDGE EXECUTION"],
     },
     platform: {
       eyebrow: "ONE AI-NATIVE SYSTEM",
@@ -428,7 +430,7 @@ export const siteContent = {
           eyebrow: "AGENT AND CONTROL PLANE",
           title: "AetherCloud",
           copy:
-            "The evolving home for agent context, desired state, governed jobs, integrations, and provider-native cloud coordination.",
+            "The evolving plane for agent context, desired state, governed jobs, integrations, and provider-native cloud coordination.",
           href: repositoryUrls.cloud,
           cta: "See the cloud foundation",
         },
@@ -457,9 +459,9 @@ export const siteContent = {
           href: docsUrl("en", "overview/ai-native-platform/"),
         },
         {
-          title: "Overview",
-          copy: "Product boundaries, authority, deployments, and user journeys.",
-          href: docsUrl("en", "overview/platform/"),
+          title: "User journeys",
+          copy: "Choose the product that owns the outcome and commission from a safe-empty runtime.",
+          href: docsUrl("en", "overview/user-journeys/"),
         },
         {
           title: "AetherEdge",
@@ -495,12 +497,12 @@ export const siteContent = {
     },
     quickstart: {
       eyebrow: "FOUNDATION AVAILABLE TODAY",
-      title: "Give an agent real capabilities—not folklore.",
+      title: "Start with a signed Release and a safe-empty runtime.",
       body:
-        "Start with a safe-empty edge runtime. Let an agent inspect typed capabilities and documentation before it proposes any change.",
-      action: "Read the documentation",
-      terminalLabel: "QUICKSTART",
-      comment: "# local composition · no broker · no cloud · no device",
+        "Verify the installer, confirm that the six services, SQLite, and authoritative SHM are healthy, then connect one disabled channel. Creating configuration never silently enables hardware.",
+      action: "Follow the safe commissioning journey",
+      terminalLabel: "OPERATOR START",
+      comment: "# signed Release · safe-empty · no device enabled",
     },
     closing: {
       eyebrow: "THE INTERFACE BECOMES A CONVERSATION",
