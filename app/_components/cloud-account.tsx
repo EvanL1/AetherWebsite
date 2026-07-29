@@ -132,7 +132,7 @@ export function CloudAccount({ content }: { content: CloudContent }) {
     const values = new FormData(event.currentTarget);
     const password = values.get("new-password");
     const confirmation = values.get("confirm-password");
-    if (typeof password !== "string" || password.length < 12) {
+    if (typeof password !== "string" || password.length < 8) {
       setError(content.passwordTooShort);
       return;
     }
@@ -253,7 +253,7 @@ export function CloudAccount({ content }: { content: CloudContent }) {
                 <input
                   autoComplete="new-password"
                   id="cloud-new-password"
-                  minLength={12}
+                  minLength={8}
                   name="new-password"
                   placeholder={content.newPasswordPlaceholder}
                   required
@@ -263,7 +263,7 @@ export function CloudAccount({ content }: { content: CloudContent }) {
                 <input
                   autoComplete="new-password"
                   id="cloud-confirm-password"
-                  minLength={12}
+                  minLength={8}
                   name="confirm-password"
                   placeholder={content.newPasswordPlaceholder}
                   required

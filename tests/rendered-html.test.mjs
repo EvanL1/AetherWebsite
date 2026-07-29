@@ -155,6 +155,22 @@ test("serves a bilingual AetherCloud account page inside the product website", a
   }
 });
 
+test("keeps the account password policy at an eight-character minimum", async () => {
+  const account = await readFile(
+    new URL("../app/_components/cloud-account.tsx", import.meta.url),
+    "utf8",
+  );
+  const translations = await readFile(
+    new URL("../app/cloud-i18n.ts", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(account, /password\.length < 8/);
+  assert.match(account, /minLength=\{8\}/);
+  assert.match(translations, /至少 8 个字符/);
+  assert.match(translations, /At least 8 characters/);
+});
+
 test("uses only public browser configuration for Supabase and AetherCloud", async () => {
   const config = await readFile(
     new URL("../app/cloud-config.ts", import.meta.url),
