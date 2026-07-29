@@ -92,7 +92,7 @@ export const siteContent = {
     docsLabel: "文档",
     docsHome: docsUrl("zh-CN"),
     cloudAccountLabel: "云端账户",
-    cloudAccountHref: "/cloud/",
+    cloudAccountHref: "https://cloud.aetheriot.dev",
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("zh-CN", "overview/user-journeys/"),
     hero: {
@@ -312,7 +312,7 @@ export const siteContent = {
     docsLabel: "Docs",
     docsHome: docsUrl("en"),
     cloudAccountLabel: "Cloud account",
-    cloudAccountHref: "/en/cloud/",
+    cloudAccountHref: "https://cloud.aetheriot.dev",
     aiNativeUrl: docsUrl("en", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("en", "overview/user-journeys/"),
     hero: {

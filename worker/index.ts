@@ -29,6 +29,15 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    if (
+      url.pathname === "/cloud" ||
+      url.pathname.startsWith("/cloud/") ||
+      url.pathname === "/en/cloud" ||
+      url.pathname.startsWith("/en/cloud/")
+    ) {
+      return Response.redirect("https://cloud.aetheriot.dev/", 308);
+    }
+
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {

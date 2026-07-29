@@ -127,63 +127,12 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   );
 });
 
-test("serves a bilingual AetherCloud account page inside the product website", async () => {
-  const chinese = await htmlFor("/cloud/");
-  const english = await htmlFor("/en/cloud/");
-
-  assert.match(chinese, /<html lang="zh-CN"/);
-  assert.match(chinese, /<title>AetherCloud 账户｜AetherIoT<\/title>/);
-  assert.match(chinese, /登录 AetherCloud/);
-  assert.match(chinese, /开发者预览/);
-  assert.match(chinese, /type="email"/);
-  assert.match(chinese, /type="password"/);
-  assert.match(chinese, /忘记密码/);
-  assert.match(chinese, /href="\/en\/cloud\/"/);
-
-  assert.match(english, /<html lang="en"/);
-  assert.match(english, /<title>AetherCloud account — AetherIoT<\/title>/);
-  assert.match(english, /Sign in to AetherCloud/);
-  assert.match(english, /DEVELOPER PREVIEW/);
-  assert.match(english, /Forgot password/);
-  assert.match(english, /href="\/cloud\/"/);
-
-  for (const html of [chinese, english]) {
-    assert.match(html, /auto[Cc]omplete="email"/);
-    assert.match(html, /auto[Cc]omplete="current-password"/);
-    assert.doesNotMatch(html, /sb_secret_|service_role/);
-    assert.doesNotMatch(html, /liuyifanz\.1996@gmail\.com/);
+test("redirects former account subpages to the independent cloud console", async () => {
+  for (const path of ["/cloud/", "/en/cloud/"]) {
+    const response = await render(path);
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get("location"), "https://cloud.aetheriot.dev/");
   }
-});
-
-test("keeps the account password policy at an eight-character minimum", async () => {
-  const account = await readFile(
-    new URL("../app/_components/cloud-account.tsx", import.meta.url),
-    "utf8",
-  );
-  const translations = await readFile(
-    new URL("../app/cloud-i18n.ts", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(account, /password\.length < 8/);
-  assert.match(account, /minLength=\{8\}/);
-  assert.match(translations, /至少 8 个字符/);
-  assert.match(translations, /At least 8 characters/);
-});
-
-test("uses only public browser configuration for Supabase and AetherCloud", async () => {
-  const config = await readFile(
-    new URL("../app/cloud-config.ts", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(
-    config,
-    /https:\/\/dvzmvjbiwytvbdedetxs\.supabase\.co/,
-  );
-  assert.match(config, /sb_publishable_/);
-  assert.match(config, /https:\/\/api\.aetheriot\.dev/);
-  assert.doesNotMatch(config, /sb_secret_|service_role|password/i);
 });
 
 test("offers accessible language and theme controls on both routes", async () => {
@@ -196,7 +145,10 @@ test("offers accessible language and theme controls on both routes", async () =>
   );
   assert.match(chinese, /aria-label="切换到英文"/);
   assert.match(chinese, /aria-label="切换明暗主题"/);
-  assert.match(chinese, /href="\/cloud\/"[^>]*>云端账户</);
+  assert.match(
+    chinese,
+    /href="https:\/\/cloud\.aetheriot\.dev"[^>]*>云端账户</,
+  );
 
   assert.match(
     english,
@@ -204,7 +156,10 @@ test("offers accessible language and theme controls on both routes", async () =>
   );
   assert.match(english, /aria-label="Switch to Chinese"/);
   assert.match(english, /aria-label="Toggle color theme"/);
-  assert.match(english, /href="\/en\/cloud\/"[^>]*>Cloud account</);
+  assert.match(
+    english,
+    /href="https:\/\/cloud\.aetheriot\.dev"[^>]*>Cloud account</,
+  );
 });
 
 test("makes all three repositories explicit in the primary navigation", async () => {
@@ -367,25 +322,14 @@ test("exports static Chinese and English homepages for Cloudflare Workers", asyn
     new URL("../dist/client/en/index.html", import.meta.url),
     "utf8",
   );
-  const chineseCloud = await readFile(
-    new URL("../dist/client/cloud/index.html", import.meta.url),
-    "utf8",
-  );
-  const englishCloud = await readFile(
-    new URL("../dist/client/en/cloud/index.html", import.meta.url),
-    "utf8",
-  );
-
   assert.match(chinese, /从安全空状态开始/);
   assert.match(chinese, /<html lang="zh-CN"/);
   assert.match(english, /Start from a safe-empty edge/);
   assert.match(english, /<html lang="en"/);
 
-  for (const html of [chinese, english, chineseCloud, englishCloud]) {
+  for (const html of [chinese, english]) {
     assert.doesNotMatch(html, /localhost|codex-preview/);
   }
-  assert.match(chineseCloud, /登录 AetherCloud/);
-  assert.match(englishCloud, /Sign in to AetherCloud/);
   assert.match(
     chinese,
     /<meta property="og:image" content="https:\/\/aetheriot\.dev\/og-home\.png"/,
