@@ -17,6 +17,18 @@ const routes = [
     marker: "Start from a safe-empty edge.",
     language: 'lang="en"',
   },
+  {
+    path: "/cloud/",
+    output: "cloud/index.html",
+    marker: "登录 AetherCloud",
+    language: 'lang="zh-CN"',
+  },
+  {
+    path: "/en/cloud/",
+    output: "en/cloud/index.html",
+    marker: "Sign in to AetherCloud",
+    language: 'lang="en"',
+  },
 ];
 
 const clientDirectory = new URL("../dist/client/", import.meta.url);

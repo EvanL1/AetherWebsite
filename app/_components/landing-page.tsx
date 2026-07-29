@@ -38,6 +38,9 @@ export function LandingPage({ content }: { content: SiteContent }) {
             {content.alternateLabel}
           </a>
           <ThemeControl locale={content.locale} label={content.themeLabel} />
+          <a className="cloud-account-link" href={content.cloudAccountHref}>
+            {content.cloudAccountLabel}
+          </a>
           <a className="nav-cta" href={content.docsHome}>
             {content.docsLabel} <span aria-hidden="true">↗</span>
           </a>

@@ -91,6 +91,8 @@ export const siteContent = {
     repositoriesLabel: "产品代码库",
     docsLabel: "文档",
     docsHome: docsUrl("zh-CN"),
+    cloudAccountLabel: "云端账户",
+    cloudAccountHref: "/cloud/",
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("zh-CN", "overview/user-journeys/"),
     hero: {
@@ -309,6 +311,8 @@ export const siteContent = {
     repositoriesLabel: "Product repositories",
     docsLabel: "Docs",
     docsHome: docsUrl("en"),
+    cloudAccountLabel: "Cloud account",
+    cloudAccountHref: "/en/cloud/",
     aiNativeUrl: docsUrl("en", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("en", "overview/user-journeys/"),
     hero: {
