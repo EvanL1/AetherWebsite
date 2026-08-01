@@ -35,7 +35,7 @@ const worker = {
       url.pathname === "/en/cloud" ||
       url.pathname.startsWith("/en/cloud/")
     ) {
-      return Response.redirect("https://cloud.aetheriot.dev/", 308);
+      return Response.redirect("https://cloud.aetheriot.ai/", 308);
     }
 
     if (url.pathname === "/_vinext/image") {

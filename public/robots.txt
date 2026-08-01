@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aetheriot.dev/sitemap.xml
+Sitemap: https://aetheriot.ai/sitemap.xml

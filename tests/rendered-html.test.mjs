@@ -87,21 +87,21 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   for (const html of [chinese, english]) {
     assert.match(
       html,
-      /<link rel="alternate" hrefLang="zh-CN" href="https:\/\/aetheriot\.dev\/"/,
+      /<link rel="alternate" hrefLang="zh-CN" href="https:\/\/aetheriot\.ai\/"/,
     );
     assert.match(
       html,
-      /<link rel="alternate" hrefLang="en" href="https:\/\/aetheriot\.dev\/en\/"/,
+      /<link rel="alternate" hrefLang="en" href="https:\/\/aetheriot\.ai\/en\/"/,
     );
     assert.match(
       html,
-      /<link rel="alternate" hrefLang="x-default" href="https:\/\/aetheriot\.dev\/"/,
+      /<link rel="alternate" hrefLang="x-default" href="https:\/\/aetheriot\.ai\/"/,
     );
   }
 
   assert.match(
     chinese,
-    /<link rel="canonical" href="https:\/\/aetheriot\.dev\/"/,
+    /<link rel="canonical" href="https:\/\/aetheriot\.ai\/"/,
   );
   assert.match(
     chinese,
@@ -110,11 +110,11 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   assert.match(chinese, /<meta property="og:locale" content="zh_CN"/);
   assert.match(
     chinese,
-    /<meta property="og:image" content="https:\/\/aetheriot\.dev\/og-home\.png"/,
+    /<meta property="og:image" content="https:\/\/aetheriot\.ai\/og-home\.png"/,
   );
   assert.match(
     english,
-    /<link rel="canonical" href="https:\/\/aetheriot\.dev\/en\/"/,
+    /<link rel="canonical" href="https:\/\/aetheriot\.ai\/en\/"/,
   );
   assert.match(
     english,
@@ -123,7 +123,7 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   assert.match(english, /<meta property="og:locale" content="en_US"/);
   assert.match(
     english,
-    /<meta property="og:image" content="https:\/\/aetheriot\.dev\/og-home\.png"/,
+    /<meta property="og:image" content="https:\/\/aetheriot\.ai\/og-home\.png"/,
   );
 });
 
@@ -131,7 +131,7 @@ test("redirects former account subpages to the independent cloud console", async
   for (const path of ["/cloud/", "/en/cloud/"]) {
     const response = await render(path);
     assert.equal(response.status, 308);
-    assert.equal(response.headers.get("location"), "https://cloud.aetheriot.dev/");
+    assert.equal(response.headers.get("location"), "https://cloud.aetheriot.ai/");
   }
 });
 
@@ -147,7 +147,7 @@ test("offers accessible language and theme controls on both routes", async () =>
   assert.match(chinese, /aria-label="切换明暗主题"/);
   assert.match(
     chinese,
-    /href="https:\/\/cloud\.aetheriot\.dev"[^>]*>云端账户</,
+    /href="https:\/\/cloud\.aetheriot\.ai"[^>]*>云端账户</,
   );
 
   assert.match(
@@ -158,7 +158,7 @@ test("offers accessible language and theme controls on both routes", async () =>
   assert.match(english, /aria-label="Toggle color theme"/);
   assert.match(
     english,
-    /href="https:\/\/cloud\.aetheriot\.dev"[^>]*>Cloud account</,
+    /href="https:\/\/cloud\.aetheriot\.ai"[^>]*>Cloud account</,
   );
 });
 
@@ -332,11 +332,11 @@ test("exports static Chinese and English homepages for Cloudflare Workers", asyn
   }
   assert.match(
     chinese,
-    /<meta property="og:image" content="https:\/\/aetheriot\.dev\/og-home\.png"/,
+    /<meta property="og:image" content="https:\/\/aetheriot\.ai\/og-home\.png"/,
   );
   assert.match(
     english,
-    /<meta property="og:image" content="https:\/\/aetheriot\.dev\/og-home\.png"/,
+    /<meta property="og:image" content="https:\/\/aetheriot\.ai\/og-home\.png"/,
   );
 });
 
@@ -356,7 +356,7 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
     new URL("../scripts/export-static.mjs", import.meta.url),
     "utf8",
   );
-  assert.match(exportScript, /https:\/\/aetheriot\.dev/);
+  assert.match(exportScript, /https:\/\/aetheriot\.ai/);
   assert.match(exportScript, /en\/index\.html/);
   assert.doesNotMatch(exportScript, /aetheriot\.pages\.dev/);
 });
@@ -384,12 +384,12 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
   assert.match(favicon, /stroke="#b8ff62"/);
   assert.match(
     robots,
-    /Sitemap: https:\/\/aetheriot\.dev\/sitemap\.xml/,
+    /Sitemap: https:\/\/aetheriot\.ai\/sitemap\.xml/,
   );
-  assert.match(sitemap, /<loc>https:\/\/aetheriot\.dev\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/aetheriot\.ai\/<\/loc>/);
   assert.match(
     sitemap,
-    /<loc>https:\/\/aetheriot\.dev\/en\/<\/loc>/,
+    /<loc>https:\/\/aetheriot\.ai\/en\/<\/loc>/,
   );
   assert.doesNotMatch(sitemap, /\/cloud\//);
 
@@ -412,7 +412,7 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
   const english = await htmlFor("/en/");
   assert.match(
     chinese,
-    /<link rel="icon" href="https:\/\/aetheriot\.dev\/favicon\.svg" type="image\/svg\+xml"/,
+    /<link rel="icon" href="https:\/\/aetheriot\.ai\/favicon\.svg" type="image\/svg\+xml"/,
   );
   assert.match(
     chinese,

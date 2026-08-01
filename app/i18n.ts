@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 export type Locale = "zh-CN" | "en";
 
-const websiteUrl = "https://aetheriot.dev";
+const websiteUrl = "https://aetheriot.ai";
+// Still the developer domain: docs.aetheriot.ai does not serve yet. This flips
+// with the AetherDocs deploy that binds the new host.
 const docsBaseUrl = "https://docs.aetheriot.dev";
 
 export const repositoryUrls = {
@@ -92,7 +94,7 @@ export const siteContent = {
     docsLabel: "文档",
     docsHome: docsUrl("zh-CN"),
     cloudAccountLabel: "云端账户",
-    cloudAccountHref: "https://cloud.aetheriot.dev",
+    cloudAccountHref: "https://cloud.aetheriot.ai",
     aiNativeUrl: docsUrl("zh-CN", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("zh-CN", "overview/user-journeys/"),
     hero: {
@@ -312,7 +314,7 @@ export const siteContent = {
     docsLabel: "Docs",
     docsHome: docsUrl("en"),
     cloudAccountLabel: "Cloud account",
-    cloudAccountHref: "https://cloud.aetheriot.dev",
+    cloudAccountHref: "https://cloud.aetheriot.ai",
     aiNativeUrl: docsUrl("en", "overview/ai-native-platform/"),
     userJourneysUrl: docsUrl("en", "overview/user-journeys/"),
     hero: {
