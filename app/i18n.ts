@@ -101,10 +101,9 @@ export const siteContent = {
       status: "开源 · AI 原生 · 开发者预览",
       lineOne: "从安全空状态开始。",
       lineTwo: "受治理地运行物理空间。",
-      lede:
-        "AetherIoT 面向设备厂商、系统集成商、解决方案开发者和边缘运维人员：先连接现场设备并证明只读数据链路，再通过 AetherEdge 按能力、权限和安全规则显式投运确定性行为。",
+      lede: "先连接设备、证明只读链路，再显式投运确定性行为。",
       action: "选择产品与安全起点",
-      note: "当前可用：安全空本地运行、采集、规则、告警与安全联锁 · 开发中：完整对话式意图与方案体验",
+      note: "已交付 安全空本地运行 · 采集 · 规则 · 告警 · 安全联锁　　开发中 对话式意图与方案体验",
     },
     homeScene: {
       ariaLabel: "物理空间设备协作示例",
@@ -322,9 +321,9 @@ export const siteContent = {
       lineOne: "Start from a safe-empty edge.",
       lineTwo: "Govern behavior across physical spaces.",
       lede:
-        "AetherIoT serves device makers, system integrators, solution builders, and edge operators: connect field devices and prove the read-only data path, then explicitly commission deterministic behavior through AetherEdge under capabilities, permissions, and safety rules.",
+        "Connect devices, prove the read-only path, then commission deterministic behavior.",
       action: "Choose your product and safe starting point",
-      note: "AVAILABLE NOW: SAFE-EMPTY LOCAL RUNTIME, ACQUISITION, RULES, ALARMS, AND SAFETY INTERLOCKS · IN DEVELOPMENT: COMPLETE CONVERSATIONAL INTENT AND PROPOSAL EXPERIENCE",
+      note: "SHIPPED  SAFE-EMPTY LOCAL RUNTIME · ACQUISITION · RULES · ALARMS · INTERLOCKS    IN DEVELOPMENT  CONVERSATIONAL INTENT AND PROPOSALS",
     },
     homeScene: {
       ariaLabel: "Example of devices working together in a physical space",

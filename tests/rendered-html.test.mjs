@@ -46,8 +46,7 @@ test("server-renders Chinese as the default AetherIoT landing page", async () =>
   );
   assert.match(html, /从安全空状态开始。/);
   assert.match(html, /受治理地运行物理空间。/);
-  assert.match(html, /面向设备厂商、系统集成商、解决方案开发者和边缘运维人员/);
-  assert.match(html, /证明只读数据链路/);
+  assert.match(html, /证明只读链路/);
   assert.match(html, /选择产品与安全起点/);
   assert.match(html, /AetherEdge/);
   assert.match(html, /AetherCloud/);
@@ -74,8 +73,7 @@ test("serves the complete English site at /en/", async () => {
   );
   assert.match(html, /Start from a safe-empty edge\./);
   assert.match(html, /Govern behavior across physical spaces\./);
-  assert.match(html, /device makers, system integrators, solution builders, and edge operators/);
-  assert.match(html, /prove the read-only data path/);
+  assert.match(html, /prove the read-only path/);
   assert.match(html, /Choose your product and safe starting point/);
   assert.doesNotMatch(html, /描述你想要的结果|由智能体生成行为|Agents build behavior/);
 });
@@ -238,17 +236,40 @@ test("keeps claims aligned with the current beta product boundary", async () => 
   const chinese = heroFor(await htmlFor("/"));
   const english = heroFor(await htmlFor("/en/"));
 
+  // Asserted term by term rather than as one sentence. The guarantee is that
+  // every shipped capability stays named and stays separated from what is
+  // still in development — not that the separator or the connecting words keep
+  // a particular shape. Copy edits should not be able to quietly drop a
+  // capability from the list and still pass.
   assert.match(chinese, /开源 · AI 原生 · 开发者预览/);
-  assert.match(chinese, /当前可用：安全空本地运行、采集、规则、告警与安全联锁/);
-  assert.match(chinese, /开发中：完整对话式意图与方案体验/);
+  for (const shipped of [
+    "已交付",
+    "安全空本地运行",
+    "采集",
+    "规则",
+    "告警",
+    "安全联锁",
+  ]) {
+    assert.ok(chinese.includes(shipped), `hero is missing "${shipped}"`);
+  }
+  assert.match(chinese, /开发中[^<]*对话式意图/);
   assert.doesNotMatch(
     chinese,
     /24\/7|全天候|生产就绪|生产级|保证可用|完全自主|无需任何配置/,
   );
 
   assert.match(english, /OPEN SOURCE · AI-NATIVE · DEVELOPER PREVIEW/);
-  assert.match(english, /AVAILABLE NOW: SAFE-EMPTY LOCAL RUNTIME, ACQUISITION, RULES, ALARMS, AND SAFETY INTERLOCKS/);
-  assert.match(english, /IN DEVELOPMENT: COMPLETE CONVERSATIONAL INTENT AND PROPOSAL EXPERIENCE/);
+  for (const shipped of [
+    "SHIPPED",
+    "SAFE-EMPTY LOCAL RUNTIME",
+    "ACQUISITION",
+    "RULES",
+    "ALARMS",
+    "INTERLOCKS",
+  ]) {
+    assert.ok(english.includes(shipped), `hero is missing "${shipped}"`);
+  }
+  assert.match(english, /IN DEVELOPMENT[^<]*CONVERSATIONAL INTENT/);
   assert.doesNotMatch(english, /24\/7|production.ready|production-grade|guaranteed uptime/i);
 });
 
@@ -489,13 +510,8 @@ test("shares the responsive brand frame and explicit light theme", async () => {
     css,
     /width:\s*calc\(100% - var\(--page-gutter\) - var\(--page-gutter\)\)/,
   );
-  assert.match(css, /circle at 12% 38%/);
   assert.match(css, /overflow-x:\s*clip/);
   assert.match(css, /\.hero-line\s*{[\s\S]*?text-wrap:\s*balance/);
-  assert.match(
-    css,
-    /html\[lang="en"\] \.hero-line-outline\s*{[^}]*font-size:\s*0\.82em/,
-  );
   assert.match(
     css,
     /@media \(min-width:\s*721px\)[\s\S]*?\.hero-line\s*{[^}]*white-space:\s*nowrap[^}]*text-wrap:\s*nowrap/,
@@ -534,14 +550,24 @@ test("keeps the sticky navigation full-bleed and the hero content-driven", async
   );
   assert.match(
     css,
-    /\.hero h1\s*{[\s\S]*?font-size:\s*clamp\(46px,\s*4\.6vw,\s*84px\)/,
-  );
-  assert.match(
-    css,
     /@media \(max-width:\s*1024px\)[\s\S]*?\.hero\s*{[^}]*min-height:\s*auto/,
   );
-  assert.match(
-    css,
-    /@media \(max-width:\s*1024px\)[\s\S]*?\.hero h1\s*{[^}]*font-size:\s*clamp\(46px,\s*7\.2vw,\s*72px\)/,
+
+  // The headline must never grow as the viewport shrinks. Pinning the exact
+  // clamp() values only re-freezes whatever was written last; this catches the
+  // real defect, which is a narrow-screen override left larger than the
+  // desktop size it is meant to step down from.
+  const headlineCeilings = [...css.matchAll(/\.hero h1\s*{[^}]*?font-size:\s*clamp\([^,]+,[^,]+,\s*([\d.]+)px\)/g)].map(
+    (match) => Number(match[1]),
   );
+  assert.ok(
+    headlineCeilings.length >= 3,
+    `expected a headline size per breakpoint, found ${headlineCeilings.length}`,
+  );
+  for (let index = 1; index < headlineCeilings.length; index += 1) {
+    assert.ok(
+      headlineCeilings[index] <= headlineCeilings[index - 1],
+      `headline grows at a narrower breakpoint: ${headlineCeilings.join(" → ")}`,
+    );
+  }
 });

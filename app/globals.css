@@ -2,16 +2,24 @@
 
 :root {
   --page-gutter: clamp(16px, 2.5vw, 48px);
-  --ink: #07110f;
-  --ink-soft: #0d1a17;
-  --paper: #f1f4ed;
-  --paper-strong: #fbfcf8;
-  --line: rgba(241, 244, 237, 0.16);
-  --line-dark: rgba(7, 17, 15, 0.14);
-  --mint: #b8ff62;
-  --mint-soft: #d9ffab;
-  --amber: #ffbd59;
-  --muted: #9aaba5;
+  /* Instrument palette. The base is neutral rather than green-tinted, and the
+     saturated accent is reserved for state: a value that means something is a
+     colour, everything else is monochrome. Retuning --mint here desaturates
+     every existing use of it at once, which is why the accent is a token
+     rather than a literal. */
+  --ink: #0a0c0d;
+  --ink-soft: #111416;
+  --paper: #e9ebeb;
+  --paper-strong: #f7f8f8;
+  --line: rgba(233, 235, 235, 0.14);
+  --line-dark: rgba(10, 12, 13, 0.14);
+  --mint: #86c98a;
+  --mint-soft: #b9dcbb;
+  --amber: #d9a441;
+  --muted: #8d9497;
+  --status-ok: #86c98a;
+  --status-warn: #d9a441;
+  --status-alarm: #cf6553;
   --bg: var(--ink);
   --bg-nav: rgba(7, 17, 15, 0.94);
   --surface: var(--ink-soft);
@@ -20,7 +28,9 @@
   --text-muted: var(--muted);
   --border: rgba(241, 244, 237, 0.16);
   --grid-line: rgba(241, 244, 237, 0.045);
-  --accent-text: var(--mint);
+  /* Labels read as labels through the monospace face and its tracking, not
+     through colour. */
+  --accent-text: #c4cacc;
   color-scheme: dark;
 }
 
@@ -28,13 +38,13 @@ html[data-theme="light"] {
   --bg: var(--paper-strong);
   --bg-nav: rgba(241, 244, 237, 0.94);
   --surface: var(--paper);
-  --text: #34423d;
+  --text: #3a4143;
   --text-strong: var(--ink);
-  --text-muted: #5e6b66;
-  --border: rgba(7, 17, 15, 0.14);
+  --text-muted: #626a6d;
+  --border: rgba(10, 12, 13, 0.14);
   --line: var(--border);
-  --grid-line: rgba(7, 17, 15, 0.035);
-  --accent-text: #47710f;
+  --grid-line: rgba(10, 12, 13, 0.035);
+  --accent-text: #4a5356;
   color-scheme: light;
 }
 
@@ -131,13 +141,13 @@ footer {
   width: 32px;
   height: 32px;
   place-items: center;
-  border: 1px solid var(--mint);
+  border: 1px solid var(--text-muted);
   border-radius: 50%;
-  color: var(--mint);
+  color: var(--text);
   font-family: var(--font-geist-mono), monospace;
   font-size: 14px;
   font-weight: 700;
-  box-shadow: inset 0 0 0 5px rgba(184, 255, 98, 0.06);
+  box-shadow: inset 0 0 0 5px rgba(134, 201, 138, 0.06);
 }
 
 .repo-nav {
@@ -181,8 +191,8 @@ footer {
 }
 
 .repo-link:hover {
-  border-color: rgba(184, 255, 98, 0.5);
-  background: rgba(184, 255, 98, 0.05);
+  border-color: rgba(134, 201, 138, 0.5);
+  background: rgba(134, 201, 138, 0.05);
   color: var(--accent-text);
 }
 
@@ -215,7 +225,7 @@ footer a:hover,
   padding: 0 11px;
   border: 1px solid var(--border);
   border-radius: 0;
-  background: rgba(184, 255, 98, 0.025);
+  background: rgba(134, 201, 138, 0.025);
   color: var(--accent-text);
   font-family:
     var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
@@ -233,7 +243,7 @@ footer a:hover,
 .cloud-account-link:hover,
 .nav-cta:hover {
   border-color: var(--mint);
-  background: rgba(184, 255, 98, 0.07);
+  background: rgba(134, 201, 138, 0.07);
 }
 
 .theme-control {
@@ -244,35 +254,23 @@ footer a:hover,
   position: relative;
   display: grid;
   min-height: clamp(680px, calc(100svh - 84px), 790px);
-  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+  /* The readout carries the product claim better than the sentence next to it,
+     so it gets the larger half. */
+  grid-template-columns: minmax(0, 0.82fr) minmax(460px, 1.18fr);
   align-items: center;
-  gap: clamp(48px, 7vw, 108px);
+  gap: clamp(40px, 5vw, 76px);
   overflow: hidden;
   padding: 62px var(--page-gutter) 78px;
-  background:
-    radial-gradient(circle at 12% 38%, rgba(184, 255, 98, 0.06), transparent 38%),
-    radial-gradient(circle at 86% 36%, rgba(184, 255, 98, 0.09), transparent 28%),
-    linear-gradient(150deg, #0a1813 0%, #091711 58%, #0d1d16 100%);
+  background: linear-gradient(168deg, #0c0f10 0%, #0a0c0d 62%, #0d1112 100%);
 }
 
 html[data-theme="light"] .hero {
-  background:
-    radial-gradient(circle at 12% 38%, rgba(71, 113, 15, 0.08), transparent 38%),
-    radial-gradient(circle at 86% 36%, rgba(71, 113, 15, 0.1), transparent 28%),
-    linear-gradient(150deg, #fbfcf8 0%, #f1f4ed 58%, #f7f9f3 100%);
+  background: linear-gradient(168deg, #f7f8f8 0%, #eceeee 62%, #f2f4f4 100%);
 }
 
+/* The tinted halo was the loudest thing on the page and carried no meaning. */
 .hero-glow {
-  position: absolute;
-  top: 16%;
-  right: -17%;
-  width: 650px;
-  height: 650px;
-  border: 1px solid rgba(184, 255, 98, 0.12);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 90px rgba(184, 255, 98, 0.015),
-    0 0 0 180px rgba(184, 255, 98, 0.01);
+  display: none;
 }
 
 .hero-grid {
@@ -310,18 +308,19 @@ html[data-theme="light"] .hero {
   height: 7px;
   margin-right: 8px;
   border-radius: 50%;
-  background: var(--mint);
-  box-shadow: 0 0 14px rgba(184, 255, 98, 0.8);
+  background: var(--status-ok);
 }
 
+/* Roughly a third of its former size, and set in --text rather than the
+   brightest tone available. The readout is the loudest element now. */
 .hero h1 {
-  max-width: none;
+  max-width: 15ch;
   margin: 0;
-  color: var(--text-strong);
-  font-size: clamp(46px, 4.6vw, 84px);
-  font-weight: 565;
-  letter-spacing: -0.072em;
-  line-height: 0.96;
+  color: var(--text);
+  font-size: clamp(30px, 2.9vw, 50px);
+  font-weight: 520;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
 }
 
 .hero-line {
@@ -329,22 +328,22 @@ html[data-theme="light"] .hero {
   text-wrap: balance;
 }
 
+/* The second line is a continuation, not a separate visual event, so it is
+   dimmed rather than outlined. The stroke effect read as decoration. */
 .hero-line-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.2px color-mix(in srgb, var(--text-strong) 72%, transparent);
-}
-
-html[lang="en"] .hero-line-outline {
-  font-size: 0.82em;
+  color: var(--text-muted);
 }
 
 .hero-lede {
-  max-width: 610px;
-  margin: 32px 0 0;
+  max-width: 34ch;
+  margin: 22px 0 0;
   color: var(--text-muted);
-  font-size: clamp(17px, 1.7vw, 21px);
-  line-height: 1.55;
-  letter-spacing: -0.025em;
+  font-family:
+    var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
+    "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  letter-spacing: 0;
 }
 
 .hero-actions {
@@ -374,13 +373,16 @@ html[lang="en"] .hero-line-outline {
   transform: translateY(-2px);
 }
 
+/* Filled in the text tone, not the status tone. A saturated call to action
+   competes with the readout beside it and, worse, spends the one colour that
+   is supposed to mean "this is the state of something". */
 .button-primary {
-  background: var(--mint);
+  background: var(--text);
   color: var(--ink);
 }
 
 .button-primary:hover {
-  background: var(--mint-soft);
+  background: var(--text-strong);
 }
 
 .button-secondary {
@@ -406,7 +408,7 @@ html[lang="en"] .hero-line-outline {
 .home-scene {
   width: 100%;
   padding: 24px;
-  border: 1px solid rgba(184, 255, 98, 0.22);
+  border: 1px solid rgba(134, 201, 138, 0.22);
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   box-shadow: none;
   backdrop-filter: blur(16px);
@@ -418,7 +420,7 @@ html[lang="en"] .hero-line-outline {
   justify-content: space-between;
   gap: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(184, 255, 98, 0.16);
+  border-bottom: 1px solid rgba(134, 201, 138, 0.16);
   color: var(--text-muted);
   font-family:
     var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
@@ -441,7 +443,7 @@ html[lang="en"] .hero-line-outline {
   flex: 0 0 auto;
   border-radius: 50%;
   background: var(--mint);
-  box-shadow: 0 0 9px rgba(184, 255, 98, 0.7);
+  box-shadow: 0 0 9px rgba(134, 201, 138, 0.7);
 }
 
 .home-scene-disclaimer {
@@ -511,7 +513,7 @@ html[lang="en"] .hero-line-outline {
   display: block;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(184, 255, 98, 0.28);
+  border: 1px solid rgba(134, 201, 138, 0.28);
   color: var(--mint);
 }
 
@@ -538,7 +540,7 @@ html[lang="en"] .hero-line-outline {
   width: 16px;
   height: 12px;
   border: 1px solid currentColor;
-  background: rgba(184, 255, 98, 0.08);
+  background: rgba(134, 201, 138, 0.08);
 }
 
 .device-icon-light::before {
@@ -596,8 +598,8 @@ html[lang="en"] .hero-line-outline {
   border-radius: 50%;
   background: currentColor;
   box-shadow:
-    0 0 0 4px rgba(184, 255, 98, 0.14),
-    0 0 0 8px rgba(184, 255, 98, 0.07);
+    0 0 0 4px rgba(134, 201, 138, 0.14),
+    0 0 0 8px rgba(134, 201, 138, 0.07);
 }
 
 .device-copy {
@@ -641,10 +643,10 @@ html[lang="en"] .hero-line-outline {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 18px;
-  border: 1px solid rgba(184, 255, 98, 0.36);
+  border: 1px solid rgba(134, 201, 138, 0.36);
   background: linear-gradient(
     145deg,
-    rgba(184, 255, 98, 0.07),
+    rgba(134, 201, 138, 0.07),
     rgba(255, 255, 255, 0.018)
   );
 }
@@ -673,7 +675,7 @@ html[lang="en"] .hero-line-outline {
 
 .automation-checks span {
   padding: 5px 7px;
-  border: 1px solid rgba(184, 255, 98, 0.22);
+  border: 1px solid rgba(134, 201, 138, 0.22);
   color: var(--accent-text);
   font-family:
     var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
@@ -883,7 +885,7 @@ html[lang="en"] .hero-line-outline {
 
 .layer-card:hover {
   padding: 0 22px;
-  background: rgba(184, 255, 98, 0.04);
+  background: rgba(134, 201, 138, 0.04);
 }
 
 .layer-index,
@@ -989,7 +991,7 @@ html[lang="en"] .hero-line-outline {
 }
 
 .docs-card:hover {
-  background: rgba(184, 255, 98, 0.045);
+  background: rgba(134, 201, 138, 0.045);
 }
 
 .docs-card > strong {
@@ -1038,7 +1040,7 @@ html[lang="en"] .hero-line-outline {
 
 .terminal {
   min-width: 0;
-  border: 1px solid rgba(184, 255, 98, 0.22);
+  border: 1px solid rgba(134, 201, 138, 0.22);
   background: #040b09;
   box-shadow: none;
 }
@@ -1259,7 +1261,8 @@ footer > div {
   }
 
   .hero h1 {
-    font-size: clamp(46px, 7.2vw, 72px);
+    max-width: 22ch;
+    font-size: clamp(28px, 4.4vw, 42px);
   }
 
   .home-scene {
@@ -1318,8 +1321,8 @@ footer > div {
   }
 
   .hero h1 {
-    font-size: clamp(30px, 8.8vw, 52px);
-    letter-spacing: -0.065em;
+    font-size: clamp(24px, 6.2vw, 34px);
+    letter-spacing: -0.03em;
   }
 
   .home-scene {
