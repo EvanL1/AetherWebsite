@@ -34,17 +34,29 @@
   color-scheme: dark;
 }
 
+/* The page is the grey and the cards are the white, not the other way round.
+   With a white page and near-white cards nothing separated, which is what made
+   the light theme read as washed out.
+
+   The status tones are re-picked rather than inherited: #4ade6d is mixed for a
+   near-black background and has nowhere near enough contrast on paper. */
 html[data-theme="light"] {
-  --bg: var(--paper-strong);
-  --bg-nav: rgba(241, 244, 237, 0.94);
-  --surface: var(--paper);
-  --text: #3a4143;
-  --text-strong: var(--ink);
-  --text-muted: #626a6d;
-  --border: rgba(10, 12, 13, 0.14);
+  --bg: #f1f3f4;
+  --bg-nav: rgba(241, 243, 244, 0.94);
+  --surface: #ffffff;
+  --text: #232a2e;
+  --text-strong: #0d1418;
+  --text-muted: #59636a;
+  --border: rgba(13, 20, 24, 0.16);
   --line: var(--border);
-  --grid-line: rgba(10, 12, 13, 0.035);
-  --accent-text: #4a5356;
+  --grid-line: rgba(13, 20, 24, 0.04);
+  --accent-text: #3f4950;
+  --mint: #14803a;
+  --mint-soft: #1a9c47;
+  --amber: #8a5a00;
+  --status-ok: #14803a;
+  --status-warn: #8a5a00;
+  --status-alarm: #b32d1f;
   color-scheme: light;
 }
 
@@ -215,6 +227,7 @@ footer a:hover,
 
 .locale-link,
 .theme-control,
+.github-link,
 .cloud-account-link,
 .nav-cta {
   display: inline-flex;
@@ -238,8 +251,18 @@ footer a:hover,
     background 180ms ease;
 }
 
+.github-link {
+  color: var(--text);
+  font-weight: 560;
+}
+
+.github-link svg {
+  flex: none;
+}
+
 .locale-link:hover,
 .theme-control:hover,
+.github-link:hover,
 .cloud-account-link:hover,
 .nav-cta:hover {
   border-color: var(--mint);
@@ -265,7 +288,7 @@ footer a:hover,
 }
 
 html[data-theme="light"] .hero {
-  background: linear-gradient(168deg, #f7f8f8 0%, #eceeee 62%, #f2f4f4 100%);
+  background: linear-gradient(168deg, #eef0f2 0%, #e7eaec 62%, #eceff1 100%);
 }
 
 /* The tinted halo was the loudest thing on the page and carried no meaning. */
