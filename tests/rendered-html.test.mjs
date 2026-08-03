@@ -135,6 +135,30 @@ test("redirects former account subpages to the independent cloud console", async
   }
 });
 
+test("sends the security headers on every response", async () => {
+  const expected = {
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "permissions-policy":
+      "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+  };
+
+  // A rendered page and a redirect leave the worker by different paths, so
+  // both are checked: the redirect is the one that would slip through if the
+  // headers were attached at the renderer instead of at the worker boundary.
+  for (const path of ["/", "/en/", "/cloud/"]) {
+    const response = await render(path);
+    for (const [header, value] of Object.entries(expected)) {
+      assert.equal(
+        response.headers.get(header),
+        value,
+        `${path} is missing ${header}`,
+      );
+    }
+  }
+});
+
 test("offers accessible language and theme controls on both routes", async () => {
   const chinese = await htmlFor("/");
   const english = await htmlFor("/en/");

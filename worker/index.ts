@@ -25,32 +25,62 @@ interface ExecutionContext {
 // dangerouslyAllowSVG: true in next.config.js and uncomment below:
 // const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
 
+// Sent on every response. The console already carries these through
+// apps/web/public/_headers in AetherCloud; the marketing site carried none, so
+// any origin could frame it and a sniffed content type could be executed.
+//
+// X-Frame-Options is DENY rather than SAMEORIGIN because nothing embeds this
+// site. Relax it here if that changes — silently blocked framing is hard to
+// diagnose from the embedding side.
+const securityHeaders: Readonly<Record<string, string>> = Object.freeze({
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+});
+
+function withSecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers);
+  for (const [name, value] of Object.entries(securityHeaders)) {
+    headers.set(name, value);
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const url = new URL(request.url);
-
-    if (
-      url.pathname === "/cloud" ||
-      url.pathname.startsWith("/cloud/") ||
-      url.pathname === "/en/cloud" ||
-      url.pathname.startsWith("/en/cloud/")
-    ) {
-      return Response.redirect("https://cloud.aetheriot.ai/", 308);
-    }
-
-    if (url.pathname === "/_vinext/image") {
-      const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
-      return handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
-        transformImage: async (body, { width, format, quality }) => {
-          const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
-          return result.response();
-        },
-      }, allowedWidths);
-    }
-
-    return handler.fetch(request, env, ctx);
+    return withSecurityHeaders(await route(request, env, ctx));
   },
 };
+
+async function route(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  const url = new URL(request.url);
+
+  if (
+    url.pathname === "/cloud" ||
+    url.pathname.startsWith("/cloud/") ||
+    url.pathname === "/en/cloud" ||
+    url.pathname.startsWith("/en/cloud/")
+  ) {
+    return Response.redirect("https://cloud.aetheriot.ai/", 308);
+  }
+
+  if (url.pathname === "/_vinext/image") {
+    const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
+    return handleImageOptimization(request, {
+      fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
+      transformImage: async (body, { width, format, quality }) => {
+        const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
+        return result.response();
+      },
+    }, allowedWidths);
+  }
+
+  return handler.fetch(request, env, ctx);
+}
 
 export default worker;
