@@ -7,19 +7,19 @@
      colour, everything else is monochrome. Retuning --mint here desaturates
      every existing use of it at once, which is why the accent is a token
      rather than a literal. */
-  --ink: #0a0c0d;
-  --ink-soft: #111416;
-  --paper: #e9ebeb;
-  --paper-strong: #f7f8f8;
+  --ink: #06080a;
+  --ink-soft: #10151a;
+  --paper: #eef1f3;
+  --paper-strong: #ffffff;
   --line: rgba(233, 235, 235, 0.14);
   --line-dark: rgba(10, 12, 13, 0.14);
-  --mint: #86c98a;
-  --mint-soft: #b9dcbb;
-  --amber: #d9a441;
-  --muted: #8d9497;
-  --status-ok: #86c98a;
-  --status-warn: #d9a441;
-  --status-alarm: #cf6553;
+  --mint: #4ade6d;
+  --mint-soft: #8fefa4;
+  --amber: #f5b23c;
+  --muted: #7d878e;
+  --status-ok: #4ade6d;
+  --status-warn: #f5b23c;
+  --status-alarm: #f2604a;
   --bg: var(--ink);
   --bg-nav: rgba(7, 17, 15, 0.94);
   --surface: var(--ink-soft);
@@ -147,7 +147,7 @@ footer {
   font-family: var(--font-geist-mono), monospace;
   font-size: 14px;
   font-weight: 700;
-  box-shadow: inset 0 0 0 5px rgba(134, 201, 138, 0.06);
+  box-shadow: inset 0 0 0 5px rgba(74, 222, 109, 0.06);
 }
 
 .repo-nav {
@@ -191,8 +191,8 @@ footer {
 }
 
 .repo-link:hover {
-  border-color: rgba(134, 201, 138, 0.5);
-  background: rgba(134, 201, 138, 0.05);
+  border-color: rgba(74, 222, 109, 0.5);
+  background: rgba(74, 222, 109, 0.05);
   color: var(--accent-text);
 }
 
@@ -225,7 +225,7 @@ footer a:hover,
   padding: 0 11px;
   border: 1px solid var(--border);
   border-radius: 0;
-  background: rgba(134, 201, 138, 0.025);
+  background: rgba(74, 222, 109, 0.025);
   color: var(--accent-text);
   font-family:
     var(--font-geist-mono), "Geist Mono", "SFMono-Regular", Consolas,
@@ -243,7 +243,7 @@ footer a:hover,
 .cloud-account-link:hover,
 .nav-cta:hover {
   border-color: var(--mint);
-  background: rgba(134, 201, 138, 0.07);
+  background: rgba(74, 222, 109, 0.07);
 }
 
 .theme-control {
@@ -408,7 +408,7 @@ html[data-theme="light"] .hero {
 .home-scene {
   width: 100%;
   padding: 24px;
-  border: 1px solid rgba(134, 201, 138, 0.22);
+  border: 1px solid rgba(74, 222, 109, 0.22);
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   box-shadow: none;
   backdrop-filter: blur(16px);
@@ -420,7 +420,7 @@ html[data-theme="light"] .hero {
   justify-content: space-between;
   gap: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(134, 201, 138, 0.16);
+  border-bottom: 1px solid rgba(74, 222, 109, 0.16);
   color: var(--text-muted);
   font-family:
     var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
@@ -443,7 +443,7 @@ html[data-theme="light"] .hero {
   flex: 0 0 auto;
   border-radius: 50%;
   background: var(--mint);
-  box-shadow: 0 0 9px rgba(134, 201, 138, 0.7);
+  box-shadow: 0 0 9px rgba(74, 222, 109, 0.7);
 }
 
 .home-scene-disclaimer {
@@ -508,13 +508,26 @@ html[data-theme="light"] .hero {
   grid-column: 1 / -1;
 }
 
+/* Colour lives in the reading, not in the chrome around it. A value that means
+   something is saturated; a value at rest is not. This is the whole reason the
+   status tones exist as separate tokens. */
 .device-icon {
   position: relative;
   display: block;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(134, 201, 138, 0.28);
-  color: var(--mint);
+  border: 1px solid color-mix(in srgb, currentcolor 34%, transparent);
+  color: var(--status-ok);
+}
+
+.device-card[data-state="attention"] .device-icon,
+.device-card[data-state="attention"] .device-value {
+  color: var(--status-warn);
+}
+
+.device-card[data-state="idle"] .device-icon,
+.device-card[data-state="idle"] .device-value {
+  color: var(--text-muted);
 }
 
 .device-icon::before,
@@ -540,7 +553,7 @@ html[data-theme="light"] .hero {
   width: 16px;
   height: 12px;
   border: 1px solid currentColor;
-  background: rgba(134, 201, 138, 0.08);
+  background: rgba(74, 222, 109, 0.08);
 }
 
 .device-icon-light::before {
@@ -598,8 +611,8 @@ html[data-theme="light"] .hero {
   border-radius: 50%;
   background: currentColor;
   box-shadow:
-    0 0 0 4px rgba(134, 201, 138, 0.14),
-    0 0 0 8px rgba(134, 201, 138, 0.07);
+    0 0 0 4px rgba(74, 222, 109, 0.14),
+    0 0 0 8px rgba(74, 222, 109, 0.07);
 }
 
 .device-copy {
@@ -626,7 +639,7 @@ html[data-theme="light"] .hero {
 }
 
 .device-value {
-  color: var(--text-strong);
+  color: var(--status-ok);
   font-family:
     var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
     "Noto Sans CJK SC", "SFMono-Regular", Consolas, monospace;
@@ -643,10 +656,10 @@ html[data-theme="light"] .hero {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 18px;
-  border: 1px solid rgba(134, 201, 138, 0.36);
+  border: 1px solid rgba(74, 222, 109, 0.36);
   background: linear-gradient(
     145deg,
-    rgba(134, 201, 138, 0.07),
+    rgba(74, 222, 109, 0.07),
     rgba(255, 255, 255, 0.018)
   );
 }
@@ -675,7 +688,7 @@ html[data-theme="light"] .hero {
 
 .automation-checks span {
   padding: 5px 7px;
-  border: 1px solid rgba(134, 201, 138, 0.22);
+  border: 1px solid rgba(74, 222, 109, 0.22);
   color: var(--accent-text);
   font-family:
     var(--font-geist-mono), "Geist Mono", "PingFang SC", "Microsoft YaHei",
@@ -885,7 +898,7 @@ html[data-theme="light"] .hero {
 
 .layer-card:hover {
   padding: 0 22px;
-  background: rgba(134, 201, 138, 0.04);
+  background: rgba(74, 222, 109, 0.04);
 }
 
 .layer-index,
@@ -991,7 +1004,7 @@ html[data-theme="light"] .hero {
 }
 
 .docs-card:hover {
-  background: rgba(134, 201, 138, 0.045);
+  background: rgba(74, 222, 109, 0.045);
 }
 
 .docs-card > strong {
@@ -1040,7 +1053,7 @@ html[data-theme="light"] .hero {
 
 .terminal {
   min-width: 0;
-  border: 1px solid rgba(134, 201, 138, 0.22);
+  border: 1px solid rgba(74, 222, 109, 0.22);
   background: #040b09;
   box-shadow: none;
 }

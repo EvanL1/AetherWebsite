@@ -90,7 +90,11 @@ export function LandingPage({ content }: { content: SiteContent }) {
 
           <ul className="device-grid">
             {content.homeScene.devices.map((device) => (
-              <li className="device-card" key={device.name}>
+              <li
+                className="device-card"
+                data-state={device.state}
+                key={device.name}
+              >
                 <span
                   className={`device-icon device-icon-${device.kind}`}
                   aria-hidden="true"

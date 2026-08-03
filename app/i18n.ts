@@ -117,6 +117,7 @@ export const siteContent = {
       devices: [
         {
           kind: "lock",
+          state: "ok",
           room: "入口",
           name: "入口门禁",
           value: "已锁定",
@@ -124,6 +125,7 @@ export const siteContent = {
         },
         {
           kind: "light",
+          state: "attention",
           room: "大厅",
           name: "大厅照明",
           value: "已关闭",
@@ -131,6 +133,7 @@ export const siteContent = {
         },
         {
           kind: "climate",
+          state: "ok",
           room: "大厅",
           name: "大厅空调",
           value: "26℃",
@@ -138,6 +141,7 @@ export const siteContent = {
         },
         {
           kind: "air",
+          state: "ok",
           room: "大厅",
           name: "空气质量",
           value: "良好",
@@ -145,6 +149,7 @@ export const siteContent = {
         },
         {
           kind: "presence",
+          state: "idle",
           room: "大厅",
           name: "占用传感器",
           value: "无人 12 分钟",
@@ -337,6 +342,7 @@ export const siteContent = {
       devices: [
         {
           kind: "lock",
+          state: "ok",
           room: "ENTRANCE",
           name: "Entrance access",
           value: "Secured",
@@ -344,6 +350,7 @@ export const siteContent = {
         },
         {
           kind: "light",
+          state: "attention",
           room: "LOBBY",
           name: "Lobby lighting",
           value: "Off",
@@ -351,6 +358,7 @@ export const siteContent = {
         },
         {
           kind: "climate",
+          state: "ok",
           room: "LOBBY",
           name: "Lobby climate",
           value: "26°C",
@@ -358,6 +366,7 @@ export const siteContent = {
         },
         {
           kind: "air",
+          state: "ok",
           room: "LOBBY",
           name: "Air quality",
           value: "Good",
@@ -365,6 +374,7 @@ export const siteContent = {
         },
         {
           kind: "presence",
+          state: "idle",
           room: "LOBBY",
           name: "Occupancy sensor",
           value: "Empty for 12 min",
