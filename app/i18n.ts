@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 export type Locale = "zh-CN" | "en";
 
 const websiteUrl = "https://aetheriot.ai";
-// Still the developer domain: docs.aetheriot.ai does not serve yet. This flips
-// with the AetherDocs deploy that binds the new host.
-const docsBaseUrl = "https://docs.aetheriot.dev";
+const docsBaseUrl = "https://docs.aetheriot.ai";
 
 export const repositoryUrls = {
   edge: "https://github.com/EvanL1/AetherEdge",

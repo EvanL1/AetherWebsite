@@ -2,19 +2,24 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render(path = "/") {
+async function render(path = "/", options = {}) {
+  const { origin = "http://localhost", env = {} } = options;
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${path}`);
+  workerUrl.searchParams.set(
+    "test",
+    `${process.pid}-${Date.now()}-${origin}-${path}`,
+  );
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request(new URL(path, "http://localhost"), {
+    new Request(new URL(path, origin), {
       headers: { accept: "text/html" },
     }),
     {
       ASSETS: {
         fetch: async () => new Response("Not found", { status: 404 }),
       },
+      ...env,
     },
     {
       waitUntil() {},
@@ -23,8 +28,8 @@ async function render(path = "/") {
   );
 }
 
-async function htmlFor(path = "/") {
-  const response = await render(path);
+async function htmlFor(path = "/", options = {}) {
+  const response = await render(path, options);
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   return response.text();
@@ -135,6 +140,62 @@ test("redirects former account subpages to the independent cloud console", async
   }
 });
 
+test("canonicalizes the www hostname without losing path or query", async () => {
+  const response = await render("/en/?source=language", {
+    origin: "https://www.aetheriot.ai",
+  });
+
+  assert.equal(response.status, 308);
+  assert.equal(
+    response.headers.get("location"),
+    "https://aetheriot.ai/en/?source=language",
+  );
+});
+
+test("enables privacy-conscious PostHog only on the configured production host", async () => {
+  const productionWithoutKey = await htmlFor("/", {
+    origin: "https://aetheriot.ai",
+  });
+  assert.doesNotMatch(productionWithoutKey, /posthog|us\.i\.posthog\.com/i);
+
+  const productionWithKey = await htmlFor("/en/", {
+    origin: "https://aetheriot.ai",
+    env: { POSTHOG_KEY: "phc_test_project_key" },
+  });
+  assert.match(productionWithKey, /data-aether-analytics/);
+  assert.match(productionWithKey, /phc_test_project_key/);
+  assert.match(productionWithKey, /https:\/\/us\.i\.posthog\.com/);
+  assert.match(productionWithKey, /person_profiles:\s*"never"/);
+  assert.match(productionWithKey, /disable_session_recording:\s*true/);
+  assert.match(productionWithKey, /cta_clicked/);
+
+  const previewWithKey = await htmlFor("/", {
+    origin: "https://aetheriot-platform.example.com",
+    env: { POSTHOG_KEY: "phc_test_project_key" },
+  });
+  assert.doesNotMatch(previewWithKey, /posthog|us\.i\.posthog\.com/i);
+});
+
+test("marks the same high-intent calls to action in both locales", async () => {
+  for (const path of ["/", "/en/"]) {
+    const html = await htmlFor(path);
+
+    for (const id of [
+      "nav_aetheredge",
+      "nav_aethercloud",
+      "nav_aethercontracts",
+      "language_switch",
+      "cloud_account",
+      "nav_docs",
+      "hero_user_journey",
+      "final_ai_native",
+      "final_docs",
+    ]) {
+      assert.match(html, new RegExp(`data-analytics-id="${id}"`));
+    }
+  }
+});
+
 test("sends the security headers on every response", async () => {
   const expected = {
     "x-content-type-options": "nosniff",
@@ -215,19 +276,19 @@ test("links each language to the matching documentation corpus", async () => {
   ]) {
     assert.match(
       chinese,
-      new RegExp(`https://docs\\.aetheriot\\.dev/zh/${path}/`),
+      new RegExp(`https://docs\\.aetheriot\\.ai/zh/${path}/`),
     );
     assert.match(
       english,
-      new RegExp(`https://docs\\.aetheriot\\.dev/${path}/`),
+      new RegExp(`https://docs\\.aetheriot\\.ai/${path}/`),
     );
   }
 
   assert.doesNotMatch(
     chinese,
-    /https:\/\/docs\.aetheriot\.dev\/en\//,
+    /https:\/\/docs\.aetheriot\.ai\/en\//,
   );
-  assert.doesNotMatch(english, /https:\/\/docs\.aetheriot\.dev\/(en|zh)\//);
+  assert.doesNotMatch(english, /https:\/\/docs\.aetheriot\.ai\/(en|zh)\//);
   assert.match(chinese, />边缘、契约与云端联动指南</);
   assert.match(english, />Edge–Contracts–Cloud integration guide</);
   assert.doesNotMatch(chinese, /tutorials\/edge-contracts-cloud|>教程</);
@@ -420,7 +481,7 @@ test("publishes browser, crawler, sitemap, and agent discovery resources", async
   for (const agentIndex of [chineseAgents, englishAgents]) {
     assert.match(
       agentIndex,
-      /https:\/\/docs\.aetheriot\.dev\/(?:en\/)?llms\.txt/,
+      /https:\/\/docs\.aetheriot\.ai\/(?:en\/)?llms\.txt/,
     );
     assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherEdge/);
     assert.match(agentIndex, /https:\/\/github\.com\/EvanL1\/AetherCloud/);

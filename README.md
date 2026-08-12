@@ -37,6 +37,18 @@ npm run lint
 
 工作进程名称为 `www`，因此 Cloudflare 会分配免费的生产地址 `https://aetheriot.ai`。
 
+生产主域支持可选的 PostHog 浏览器分析。只有在 Worker 环境中配置合法的
+`POSTHOG_KEY` 后，`https://aetheriot.ai` 的 HTML 才会加载 PostHog；未配置、
+本地开发和预览域名均不会发送分析请求。当前配置只记录页面浏览、页面离开和带
+稳定标识的关键 CTA 点击，不创建人员画像，也不启用会话回放。
+
 ```bash
 npm run deploy:cloudflare
+```
+
+首次启用时，在构建后写入 PostHog Project API Key；该值不应提交到仓库：
+
+```bash
+npm run build
+npx wrangler secret put POSTHOG_KEY --config dist/server/wrangler.json
 ```

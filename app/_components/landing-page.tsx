@@ -12,17 +12,32 @@ export function LandingPage({ content }: { content: SiteContent }) {
           <span>AetherIoT</span>
         </a>
         <div className="repo-nav" aria-label={content.repositoriesLabel}>
-          <a className="repo-link" href={repositoryUrls.edge}>
+          <a
+            className="repo-link"
+            href={repositoryUrls.edge}
+            data-analytics-id="nav_aetheredge"
+            data-analytics-placement="navigation"
+          >
             <span aria-hidden="true">01</span>
             <strong>AetherEdge</strong>
             <span aria-hidden="true">↗</span>
           </a>
-          <a className="repo-link" href={repositoryUrls.cloud}>
+          <a
+            className="repo-link"
+            href={repositoryUrls.cloud}
+            data-analytics-id="nav_aethercloud"
+            data-analytics-placement="navigation"
+          >
             <span aria-hidden="true">02</span>
             <strong>AetherCloud</strong>
             <span aria-hidden="true">↗</span>
           </a>
-          <a className="repo-link" href={repositoryUrls.contracts}>
+          <a
+            className="repo-link"
+            href={repositoryUrls.contracts}
+            data-analytics-id="nav_aethercontracts"
+            data-analytics-placement="navigation"
+          >
             <span aria-hidden="true">03</span>
             <strong>AetherContracts</strong>
             <span aria-hidden="true">↗</span>
@@ -34,14 +49,26 @@ export function LandingPage({ content }: { content: SiteContent }) {
             href={content.alternateHref}
             hrefLang={content.alternateLocale}
             aria-label={content.switchLanguageLabel}
+            data-analytics-id="language_switch"
+            data-analytics-placement="navigation"
           >
             {content.alternateLabel}
           </a>
           <ThemeControl locale={content.locale} label={content.themeLabel} />
-          <a className="cloud-account-link" href={content.cloudAccountHref}>
+          <a
+            className="cloud-account-link"
+            href={content.cloudAccountHref}
+            data-analytics-id="cloud_account"
+            data-analytics-placement="navigation"
+          >
             {content.cloudAccountLabel}
           </a>
-          <a className="nav-cta" href={content.docsHome}>
+          <a
+            className="nav-cta"
+            href={content.docsHome}
+            data-analytics-id="nav_docs"
+            data-analytics-placement="navigation"
+          >
             {content.docsLabel} <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -64,7 +91,12 @@ export function LandingPage({ content }: { content: SiteContent }) {
           </h1>
           <p className="hero-lede">{content.hero.lede}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href={content.userJourneysUrl}>
+            <a
+              className="button button-primary"
+              href={content.userJourneysUrl}
+              data-analytics-id="hero_user_journey"
+              data-analytics-placement="hero"
+            >
               {content.hero.action} <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -256,10 +288,20 @@ export function LandingPage({ content }: { content: SiteContent }) {
         <h2>{content.closing.title}</h2>
         <p>{content.closing.body}</p>
         <div className="hero-actions">
-          <a className="button button-primary" href={content.aiNativeUrl}>
+          <a
+            className="button button-primary"
+            href={content.aiNativeUrl}
+            data-analytics-id="final_ai_native"
+            data-analytics-placement="closing"
+          >
             {content.closing.primary} <span aria-hidden="true">→</span>
           </a>
-          <a className="button button-secondary" href={content.docsHome}>
+          <a
+            className="button button-secondary"
+            href={content.docsHome}
+            data-analytics-id="final_docs"
+            data-analytics-placement="closing"
+          >
             {content.closing.secondary} <span aria-hidden="true">↗</span>
           </a>
         </div>

@@ -4,11 +4,11 @@
 
 ## 智能体入口
 
-- [统一中文文档索引](https://docs.aetheriot.dev/zh/llms.txt)
-- [统一英文文档索引](https://docs.aetheriot.dev/llms.txt)
-- [安全投运用户旅程](https://docs.aetheriot.dev/zh/overview/user-journeys/)
-- [产品状态与路线图](https://docs.aetheriot.dev/zh/roadmap/status/)
-- [版本兼容性](https://docs.aetheriot.dev/zh/compatibility/version-matrix/)
+- [统一中文文档索引](https://docs.aetheriot.ai/zh/llms.txt)
+- [统一英文文档索引](https://docs.aetheriot.ai/llms.txt)
+- [安全投运用户旅程](https://docs.aetheriot.ai/zh/overview/user-journeys/)
+- [产品状态与路线图](https://docs.aetheriot.ai/zh/roadmap/status/)
+- [版本兼容性](https://docs.aetheriot.ai/zh/compatibility/version-matrix/)
 
 ## 产品代码库
 

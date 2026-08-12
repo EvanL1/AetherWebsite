@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { withPostHog } from "./posthog";
 
 interface Env {
   ASSETS: Fetcher;
@@ -12,6 +13,7 @@ interface Env {
       };
     };
   };
+  POSTHOG_KEY?: string;
 }
 
 interface ExecutionContext {
@@ -53,7 +55,10 @@ function withSecurityHeaders(response: Response): Response {
 
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    return withSecurityHeaders(await route(request, env, ctx));
+    const response = await route(request, env, ctx);
+    return withSecurityHeaders(
+      await withPostHog(request, response, env.POSTHOG_KEY),
+    );
   },
 };
 
@@ -67,6 +72,11 @@ async function route(request: Request, env: Env, ctx: ExecutionContext): Promise
     url.pathname.startsWith("/en/cloud/")
   ) {
     return Response.redirect("https://cloud.aetheriot.ai/", 308);
+  }
+
+  if (url.hostname === "www.aetheriot.ai") {
+    url.hostname = "aetheriot.ai";
+    return Response.redirect(url.toString(), 308);
   }
 
   if (url.pathname === "/_vinext/image") {
