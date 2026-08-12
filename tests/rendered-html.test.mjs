@@ -436,6 +436,11 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
   assert.equal(config.name, "www");
   assert.equal(config.main, "index.js");
   assert.equal(config.assets.directory, "../client");
+  assert.equal(
+    config.assets.run_worker_first,
+    true,
+    "HTML must pass through the Worker for hostname redirects and optional analytics",
+  );
 
   const exportScript = await readFile(
     new URL("../scripts/export-static.mjs", import.meta.url),

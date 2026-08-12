@@ -15,6 +15,11 @@ const localBindingConfig = {
   name: "www",
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
+  // HTML must reach worker/index.ts so production-host redirects and optional
+  // runtime analytics injection cannot be bypassed by the static asset layer.
+  assets: {
+    run_worker_first: true,
+  },
   d1_databases: d1
     ? [
         {
