@@ -176,6 +176,25 @@ test("enables privacy-conscious PostHog only on the configured production host",
   assert.doesNotMatch(previewWithKey, /posthog|us\.i\.posthog\.com/i);
 });
 
+test("keeps production HTML on the static asset path before analytics injection", async () => {
+  const response = await render("/", {
+    origin: "https://aetheriot.ai",
+    env: {
+      POSTHOG_KEY: "phc_test_project_key",
+      ASSETS: {
+        fetch: async () =>
+          new Response("<html><head></head><body>static home</body></html>", {
+            headers: { "content-type": "text/html; charset=utf-8" },
+          }),
+      },
+    },
+  });
+  const html = await response.text();
+
+  assert.match(html, /static home/);
+  assert.match(html, /data-aether-analytics/);
+});
+
 test("marks the same high-intent calls to action in both locales", async () => {
   for (const path of ["/", "/en/"]) {
     const html = await htmlFor(path);

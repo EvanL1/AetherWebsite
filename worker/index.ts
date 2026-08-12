@@ -90,6 +90,11 @@ async function route(request: Request, env: Env, ctx: ExecutionContext): Promise
     }, allowedWidths);
   }
 
+  const assetResponse = await env.ASSETS.fetch(request);
+  if (assetResponse.status !== 404) {
+    return assetResponse;
+  }
+
   return handler.fetch(request, env, ctx);
 }
 
