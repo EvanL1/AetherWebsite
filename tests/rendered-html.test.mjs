@@ -436,9 +436,18 @@ test("targets the AetherIoT Cloudflare Workers free subdomain", async () => {
   assert.equal(config.name, "www");
   assert.equal(config.main, "index.js");
   assert.equal(config.assets.directory, "../client");
-  assert.equal(
+  assert.equal(config.assets.binding, "ASSETS");
+  assert.deepEqual(
     config.assets.run_worker_first,
-    true,
+    [
+      "/",
+      "/en",
+      "/en/",
+      "/cloud",
+      "/cloud/*",
+      "/en/cloud",
+      "/en/cloud/*",
+    ],
     "HTML must pass through the Worker for hostname redirects and optional analytics",
   );
 

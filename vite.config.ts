@@ -18,7 +18,16 @@ const localBindingConfig = {
   // HTML must reach worker/index.ts so production-host redirects and optional
   // runtime analytics injection cannot be bypassed by the static asset layer.
   assets: {
-    run_worker_first: true,
+    binding: "ASSETS",
+    run_worker_first: [
+      "/",
+      "/en",
+      "/en/",
+      "/cloud",
+      "/cloud/*",
+      "/en/cloud",
+      "/en/cloud/*",
+    ],
   },
   d1_databases: d1
     ? [
