@@ -132,6 +132,17 @@ test("publishes localized canonical, alternate, and Open Graph metadata", async 
   );
 });
 
+test("points security researchers at the published security.txt", async () => {
+  for (const origin of ["https://aetheriot.ai", "https://www.aetheriot.ai"]) {
+    const response = await render("/.well-known/security.txt", { origin });
+    assert.equal(response.status, 302);
+    assert.equal(
+      response.headers.get("location"),
+      "https://docs.aetheriot.ai/.well-known/security.txt",
+    );
+  }
+});
+
 test("redirects former account subpages to the independent cloud console", async () => {
   for (const path of ["/cloud/", "/en/cloud/"]) {
     const response = await render(path);

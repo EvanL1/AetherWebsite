@@ -74,6 +74,11 @@ async function route(request: Request, env: Env, ctx: ExecutionContext): Promise
     return Response.redirect("https://cloud.aetheriot.ai/", 308);
   }
 
+  // One generated file on the documentation host, so only one Expires to keep current.
+  if (url.pathname === "/.well-known/security.txt") {
+    return Response.redirect("https://docs.aetheriot.ai/.well-known/security.txt", 302);
+  }
+
   if (url.hostname === "www.aetheriot.ai") {
     url.hostname = "aetheriot.ai";
     return Response.redirect(url.toString(), 308);
